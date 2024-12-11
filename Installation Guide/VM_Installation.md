@@ -3,7 +3,7 @@
 1. Update the system
 
 ```bash
-	sudo apt update && sudo apt upgrade -y 
+   sudo apt update && sudo apt upgrade -y 
 ```
 
 2. Install GNOME full version
