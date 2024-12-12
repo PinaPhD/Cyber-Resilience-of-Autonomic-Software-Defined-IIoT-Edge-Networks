@@ -9,7 +9,7 @@
 2. Install GNOME full version
 
 ```bash
-   sudo apt install ubuntu-gnome-desktop
+   sudo apt install ubuntu-gnome-desktop -y
 ```
 
 3. Configure the display manager
@@ -29,4 +29,5 @@
 ```bash
    sudo apt purge xfce4 xfce4-* && sudo apt autoremove --purge -y
 ```
+
 
