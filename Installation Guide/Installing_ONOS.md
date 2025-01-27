@@ -1,3 +1,8 @@
+---
+### ONOS SDN Controller
+
+![ONOS SDN Controller](https://upload.wikimedia.org/wikipedia/en/d/d3/Logo_for_the_ONOS_open_source_project.png)
+
 #### Setting up the ONOS SDN Controller Cluster:
 
 ```bash
