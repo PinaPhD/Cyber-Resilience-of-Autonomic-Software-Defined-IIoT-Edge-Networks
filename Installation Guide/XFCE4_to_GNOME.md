@@ -1,4 +1,7 @@
-## To upgrade from XFCE4 to GNOME on the Ubuntu System
+---
+### To upgrade from XFCE4 to GNOME on the Ubuntu System
+
+![Ubuntu GNOME](https://diocesanos.es/blogs/equipotic/wp-content/uploads/sites/2/2017/09/ubuntu-gnome-logo.png)
 
 1. Update the system
 
