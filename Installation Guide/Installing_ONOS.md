@@ -3,59 +3,39 @@
 
 ![ONOS SDN Controller](https://upload.wikimedia.org/wikipedia/en/d/d3/Logo_for_the_ONOS_open_source_project.png)
 
-#### Setting up the ONOS SDN Controller Cluster:
+
+### Pre-requisites
+On an Ubuntu 20.04 LTS-Gen2 Virtual Machine with Gnome Desktop, do the following:
 
 ```bash
-	sudo apt-get -y update && sudo apt-get -y upgrade
-	sudo apt install git wget vim
-	sudo apt -y install openjdk-8-jdk
+sudo apt-get -y update && sudo apt-get -y upgrade
+sudo apt install default-jdk
+sudo apt install apt-transport-https curl gnupg -y
+curl -fsSL https://bazel.build/bazel-release.pub.gpg | gpg --dearmor >bazel-archive-keyring.gpg
+sudo mv bazel-archive-keyring.gpg /usr/share/keyrings
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/bazel-archive-keyring.gpg] https://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list
+sudo apt update && sudo apt install bazel-3.7.2
 ```
 
-Append environment variable JAVA_HOME to ~/.bashrc 
-```bash
-	export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-	export JRE_HOME=$JAVA_HOME/jre
-	export CLASSPATH=.:$JAVA_HOME/lib:$JRE_HOME/lib
-	export PATH=$JAVA_HOME/bin:$PATH
-```
-
-Run this: `source ~/.bashrc`
-
-Installing ONOS Ver2.0.0 (_Loon_)
-
-Download the onos binary file:  `sudo wget -c https://repo1.maven.org/maven2/org/onosproject/onos-releases/2.0.0/onos-2.0.0.tar.gz`
+Now install the latest version of ONOS (ver.2.7.0 -- ~Snowy Owl~)
 
 ```bash
-	tar zxvf onos-2.0.0.tar.gz
-	sudo mkdir /opt/onos 
-	sudo cp -r onos-2.0.0/* /opt/onos
+git clone https://github.com/opennetworkinglab/onos.git
+cd onos
+git checkout 2.7.0 # or git reset --hard 2.7.0
+sudo apt-get install python-is-python3 -y
+bazel build onos
 ```
 
-Run onos services 
+- If you get any error, run `bazel build onos` again and it will clean them up.
+
 ```bash
-	cd /opt/onos/bin
-	sudo /opt/onos/bin/onos-service start
+bazel run onos-local [-- [clean] [debug]]
 ```
 
-Open another terminal and add configuration to ~/.ssh/config
-```bash
-	mkdir ~/.ssh
-	touch ~/.ssh/config
-	vim ~/.ssh/config
-```
-
-Paste this in the `~/.ssh/config` file
-```bash
-	HostKeyAlgorithms +ssh-rsa
-	PubkeyAcceptedKeyTypes +ssh-rsa
-```
-
-Connect to onos cli and activate application
-```bash
-	cd /opt/onos/bin
-	/opt/onos/bin/onos -l onos
-	password: rocks
-```
+Now you may log onto the ONOS Web App:
+- Open browser and type `http:<localhost>:8181/onos/ui`
+- username/password: `onos/rocks`
 
 On the ONOS SDN Controller CLI activate the following applications:
 ```bash
@@ -64,7 +44,3 @@ On the ONOS SDN Controller CLI activate the following applications:
 	onos@root$ app activate org.onosproject.openflow
 ```
 
-Login GUI
-Open browser and type `http:<localhost>:8181/onos/ui`
-
-username/password: onos/rocks
