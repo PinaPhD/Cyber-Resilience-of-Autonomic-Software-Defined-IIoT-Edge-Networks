@@ -46,5 +46,6 @@ On the ONOS SDN Controller CLI activate the following applications:
 	onos@root$ app activate org.onosproject.gangliametrics
 	onos@root$ app activate org.onosproject.graphitemetrics
 	onos@root$ app activate org.onosproject.cpman
+	onos@root$ app activate org.onosproject.acl
 ```
 
