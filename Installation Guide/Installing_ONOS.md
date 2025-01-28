@@ -42,5 +42,9 @@ On the ONOS SDN Controller CLI activate the following applications:
 	onos@root$ app activate org.onosproject.pipelines.basic
 	onos@root$ app activate org.onosproject.fwd
 	onos@root$ app activate org.onosproject.openflow
+	onos@root$ app activate org.onosproject.influxdbmetrics
+	onos@root$ app activate org.onosproject.gangliametrics
+	onos@root$ app activate org.onosproject.graphitemetrics
+	onos@root$ app activate org.onosproject.cpman
 ```
 
