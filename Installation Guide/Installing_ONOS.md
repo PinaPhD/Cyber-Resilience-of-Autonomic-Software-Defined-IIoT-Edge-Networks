@@ -17,7 +17,7 @@ echo "deb [arch=amd64 signed-by=/usr/share/keyrings/bazel-archive-keyring.gpg] h
 sudo apt update && sudo apt install bazel-3.7.2
 ```
 
-Now install the latest version of ONOS (ver.2.7.0 -- ~Snowy Owl~)
+Now install the latest version of ONOS (ver.2.7.0 -- _Snowy_Owl_)
 
 ```bash
 git clone https://github.com/opennetworkinglab/onos.git
