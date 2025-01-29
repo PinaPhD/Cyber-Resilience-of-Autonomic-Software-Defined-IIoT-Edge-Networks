@@ -3,17 +3,8 @@
 
 ```bash
    sudo apt install git python3-pip -y
-```
-
-```bash
    git clone https://github.com/mininet/mininet
-```
-
-```bash
    cd mininet
-```
-
-```bash
    sudo ./util/install.sh -a
 ```
 
