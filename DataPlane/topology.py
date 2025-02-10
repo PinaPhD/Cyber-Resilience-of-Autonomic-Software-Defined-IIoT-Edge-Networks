@@ -113,23 +113,12 @@ class sdnnet(Topo):
         s19 = self.addSwitch('s19')
         s20 = self.addSwitch('s20')
 
-        # Create spine-to-spine links (fully connected mesh)
+        # Create spine-to-spine switch links (Building redundancy)
         self.addLink(s1, s2)
-        self.addLink(s1, s3)
-        self.addLink(s1, s4)
         self.addLink(s2, s3)
-        self.addLink(s2, s4)
         self.addLink(s3, s4)
 
-        # Create leaf-to-leaf links (fully connected mesh)
-        self.addLink(s5, s6)
-        self.addLink(s5, s7)
-        self.addLink(s5, s8)
-        self.addLink(s6, s7)
-        self.addLink(s6, s8)
-        self.addLink(s7, s8)
-
-        # Connecting Spine and Distribution Layers
+        # Connecting Spine and Distribution Layers (Building redundancy)
         self.addLink(s1, s5)
         self.addLink(s1, s6)
         self.addLink(s1, s7)
@@ -183,7 +172,7 @@ class sdnnet(Topo):
         self.addLink(e1,s19)
         self.addLink(e2,s20)
         self.addLink(e3,s10)
-        self.addLink(e4,s9)
+        self.addLink(e4,s19)
         self.addLink(e5,s13)
         
         self.addLink(v1,s12)
@@ -196,7 +185,7 @@ class sdnnet(Topo):
            Wind Farm WTG access networks
         '''
        
-        #Creating the wind turbine generator Tower Switches
+        #Creating switches for 20 wind turbine generator Nacelle and Tower access networks (Reduced-scale model) 
         s21 = self.addSwitch('s21')
         s22 = self.addSwitch('s22')
         s23 = self.addSwitch('s23')
