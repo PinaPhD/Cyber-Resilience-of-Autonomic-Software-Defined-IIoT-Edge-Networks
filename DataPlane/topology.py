@@ -179,3 +179,131 @@ class sdnnet(Topo):
         self.addLink(q3, s16)
         self.addLink(q4, s17)
         self.addLink(q5, s18)
+
+        self.addLink(e1,s19)
+        self.addLink(e2,s20)
+        self.addLink(e3,s10)
+        self.addLink(e4,s9)
+        self.addLink(e5,s13)
+        
+        self.addLink(v1,s12)
+        self.addLink(v2,s11)
+        self.addLink(v3,s15)
+        self.addLink(v4,s17)
+        self.addLink(v5,s19)
+
+        ''' 
+           Wind Farm WTG access networks
+        '''
+       
+        #Creating the wind turbine generator Tower Switches
+        s21 = self.addSwitch('s21')
+        s22 = self.addSwitch('s22')
+        s23 = self.addSwitch('s23')
+        s24 = self.addSwitch('s24')
+        s25 = self.addSwitch('s25')
+        s26 = self.addSwitch('s26')
+        s27 = self.addSwitch('s27')
+        s28 = self.addSwitch('s28')
+        s29 = self.addSwitch('s29')
+        s30 = self.addSwitch('s30')
+        s31 = self.addSwitch('s31')
+        s32 = self.addSwitch('s32')
+        s33 = self.addSwitch('s33')
+        s34 = self.addSwitch('s34')
+        s35 = self.addSwitch('s35')
+        s36 = self.addSwitch('s36')
+        s37 = self.addSwitch('s37')
+        s38 = self.addSwitch('s38')
+        s39 = self.addSwitch('s39')
+        s40 = self.addSwitch('s40')
+
+        #Linking these switches to the spine switches
+        self.addLink(s21,s1)
+        self.addLink(s22,s1)
+        self.addLink(s23,s1)
+        self.addLink(s24,s1)
+        self.addLink(s25,s1)
+
+        self.addLink(s26,s2)
+        self.addLink(s27,s2)
+        self.addLink(s28,s2)
+        self.addLink(s29,s2)
+        self.addLink(s30,s2)
+
+        self.addLink(s31,s3)
+        self.addLink(s32,s3)
+        self.addLink(s33,s3)
+        self.addLink(s34,s3)
+        self.addLink(s35,s3)
+
+        self.addLink(s36,s4)
+        self.addLink(s37,s4)
+        self.addLink(s38,s4)
+        self.addLink(s39,s4)
+        self.addLink(s40,s4)
+
+        #Linking local data acquisition modules and actuators to each wtg switches
+        self.addLink(r1, s21)
+        self.addLink(b1, s21)
+
+        self.addLink(r2, s22)
+        self.addLink(b2, s22)
+
+        self.addLink(r3, s23)
+        self.addLink(b3, s23)
+
+        self.addLink(r4, s24)
+        self.addLink(b4, s24)
+
+        self.addLink(r5, s25)
+        self.addLink(b5, s25)
+
+        self.addLink(r6, s26)
+        self.addLink(b6, s26)
+
+        self.addLink(r7, s27)
+        self.addLink(b7, s27)
+
+        self.addLink(r8, s28)
+        self.addLink(b8, s28)
+
+        self.addLink(r9, s29)
+        self.addLink(b9, s29)
+
+        self.addLink(r10, s30)
+        self.addLink(b10, s30)
+
+        self.addLink(r11, s31)
+        self.addLink(b11, s31)
+
+        self.addLink(r12, s32)
+        self.addLink(b12, s32)
+
+        self.addLink(r13, s33)
+        self.addLink(b13, s33)
+
+        self.addLink(r14, s34)
+        self.addLink(b14, s34)
+
+        self.addLink(r15, s35)
+        self.addLink(b15, s35)
+
+        self.addLink(r16, s36)
+        self.addLink(b16, s36)
+
+        self.addLink(r17, s37)
+        self.addLink(b17, s37)
+
+        self.addLink(r18, s38)
+        self.addLink(b18, s38)
+
+        self.addLink(r19, s39)
+        self.addLink(b19, s39)
+
+        self.addLink(r20, s40)
+        self.addLink(b20, s40)
+        
+
+    
+topos = {'mytopo': (lambda: sdnnet() )}
