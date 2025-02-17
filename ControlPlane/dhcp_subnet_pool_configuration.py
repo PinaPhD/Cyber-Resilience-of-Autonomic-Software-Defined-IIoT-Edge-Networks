@@ -2,20 +2,18 @@ import requests
 import json
 
 # ONOS REST API Credentials
-ONOS_IP = "10.10.10.43"  # Your ONOS controller's IP
+ONOS_IP = "10.10.10.43"  #ONOS controller's IP Management Address
 USERNAME = "onos"
 PASSWORD = "rocks"
-
-# API Endpoint for DHCP Configuration
-API_URL = f"http://{ONOS_IP}:8181/onos/v1/network/configuration"
+API_URL = f"http://{ONOS_IP}:8181/onos/v1/network/configuration"  # API Endpoint for DHCP Configuration
 
 # DHCP Configuration with custom subnets and labels for each pool
 dhcp_config = {
-    "dhcp": {  # Changed from "dhcpServers" to "dhcp"
+    "dhcp": { 
         "dhcpConfig": {
-            "defaultGateway": "192.168.16.1",  # Example default gateway; adjust as needed
+            "defaultGateway": "192.168.16.254",  # Example default gateway
             "domainName": "example.com",
-            "subnetMask": "255.255.255.128",  # Global subnet mask; adjust if required
+            "subnetMask": "255.255.255.128",  # Global subnet mask
             "dnsServers": ["8.8.8.8"],
             "pools": {
                 "192.168.16.0/25": {
