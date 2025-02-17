@@ -1,4 +1,4 @@
-## Analyzing the cyber-resilience of zero-trust software-defined industrial IoT-Edge networks in offshore wind farms
+## Analyzing the cyber-resilience of software-defined Industrial IoT-Edge (IIoT-Edge) networks in offshore wind farms
 
 
 ---
