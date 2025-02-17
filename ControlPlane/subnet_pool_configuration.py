@@ -12,8 +12,8 @@ import json
 
 
 #DHCP Subnet Pool Configuration
-# ONOS REST API Credentials
-ONOS_IP = "10.10.10.43"  # Change to your ONOS controller's IP
+#ONOS REST API Credentials
+ONOS_IP = "10.10.10.43"  #ONOS controller's IP
 USERNAME = "onos"
 PASSWORD = "rocks"
 
@@ -22,9 +22,9 @@ API_URL = f"http://{ONOS_IP}:8181/onos/v1/network/configuration"
 
 # DHCP Configuration with custom subnets and labels for each pool
 dhcp_config = {
-    "dhcpServers": {
+    "dhcp": {
         "dhcpConfig": {
-            "defaultGateway": "192.168.16.254",  # Example default gateway; 
+            "defaultGateway": "192.168.16.254",  # Default gateway; 
             "domainName": "example.com",
             # Global subnet mask is less relevant with multiple CIDRs; 
             "subnetMask": "255.255.255.128",
@@ -165,7 +165,7 @@ else:
     print(f"❌ Error: {response.status_code}, {response.text}")
 
 # Verifying DHCP Leases
-dhcp_leases_url = f"http://{ONOS_IP}:8181/onos/v1/dhcp/allocations"
+dhcp_leases_url = f"http://{ONOS_IP}:8181/onos/v1/dhcp/leases"
 response = requests.get(dhcp_leases_url, auth=(USERNAME, PASSWORD))
 
 if response.status_code == 200:

@@ -22,7 +22,14 @@ dhcp_relay_config = {
                     "ip": "192.168.16.254",  # DHCP Server IP based on the DHCP subnet pools
                     "connectPoint": "of:0000000000000001/15"  # Switch Port to connect to DHCP server
                 }
-            ]
+            ],
+            "dhcpManager": {
+                "allowHostDiscovery": True  # Allow host discovery from DHCP requests
+            },
+            "dhcpFpmEnabled": True  # Enable DHCP Forwarding Policy Manager
+        },
+        "org.onosproject.hostlocationprovider": {
+            "useDhcp": True  # Enable DHCP to automatically assign IP addresses to hosts
         }
     }
 }
@@ -59,4 +66,3 @@ if response.status_code in [200, 204]:
 
 else:
     print(f"❌ Error: {response.status_code}, {response.text}")
-
