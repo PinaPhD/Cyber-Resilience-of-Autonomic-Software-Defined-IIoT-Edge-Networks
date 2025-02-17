@@ -25,7 +25,7 @@ dhcp_config = {
     "dhcpServers": {
         "dhcpConfig": {
             "defaultGateway": "192.168.16.254",  # Example default gateway; 
-            "domainName": "example.com",
+            "domainName": "sd-iiot-edge.com",
             # Global subnet mask is less relevant with multiple CIDRs; 
             "subnetMask": "255.255.255.128",
             "dnsServers": ["8.8.8.8"],
