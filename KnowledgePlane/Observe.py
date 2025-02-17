@@ -140,4 +140,4 @@ def current_network_state():
 if __name__ == "__main__":
     # Reading the current network state
     devices, links, hosts, flows, port_stats = current_network_state()
-    devices
+    
