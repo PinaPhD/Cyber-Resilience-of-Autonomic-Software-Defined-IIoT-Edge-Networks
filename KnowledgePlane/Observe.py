@@ -16,9 +16,9 @@ import json  # Import JSON module to convert dict to string
 
 
 '''
-        ONOS SDN controller cluster interacting with the Knowledge Base
-        Connecting to the primary SDN controller using a 8181 RESTful API based url and 
-        BASE24 Authentication (Plain user/password credentials)
+    ONOS SDN controller cluster interacting with the Knowledge Base
+    Connecting to the primary SDN controller using a 8181 RESTful API based url and 
+    BASE24 Authentication (Plain user/password credentials)
 '''
 
 
