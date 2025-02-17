@@ -6,7 +6,6 @@
     @author: Agrippina Mwangi
 """
 
-
 import os
 import requests
 import json
@@ -25,9 +24,9 @@ API_URL = f"http://{ONOS_IP}:8181/onos/v1/network/configuration"
 dhcp_config = {
     "dhcpServers": {
         "dhcpConfig": {
-            "defaultGateway": "192.168.16.1",  # Example default gateway; adjust as needed
+            "defaultGateway": "192.168.16.254",  # Example default gateway; 
             "domainName": "example.com",
-            # Global subnet mask is less relevant with multiple CIDRs; adjust or remove if required
+            # Global subnet mask is less relevant with multiple CIDRs; 
             "subnetMask": "255.255.255.128",
             "dnsServers": ["8.8.8.8"],
             "pools": {
