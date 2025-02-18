@@ -146,9 +146,9 @@ response = requests.post(
 
 # Print response status
 if response.status_code in [200, 204]:
-    print("✅ DHCP configuration applied successfully!")
+    print(" DHCP configuration applied successfully!")
 else:
-    print(f"❌ Error: {response.status_code}, {response.text}")
+    print(f" Error: {response.status_code}, {response.text}")
 
 # Verifying DHCP Leases
 # Updated leases endpoint (previously /allocations returned 404)
@@ -157,8 +157,8 @@ response = requests.get(dhcp_leases_url, auth=(USERNAME, PASSWORD))
 
 if response.status_code == 200:
     dhcp_leases = response.json()
-    print("\n📌 Current DHCP Leases:")
+    print("\n Current DHCP Leases:")
     for lease in dhcp_leases:
         print(f"MAC: {lease.get('mac', 'N/A')} -> IP: {lease.get('ip', 'N/A')}")
 else:
-    print(f"❌ Error retrieving DHCP leases: {response.status_code}, {response.text}")
+    print(f" Error retrieving DHCP leases: {response.status_code}, {response.text}")

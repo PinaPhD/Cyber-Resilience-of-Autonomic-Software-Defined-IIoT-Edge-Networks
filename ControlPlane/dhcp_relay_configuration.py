@@ -44,14 +44,14 @@ response = requests.post(
 
 # Print response status
 if response.status_code in [200, 204]:
-    print("✅ DHCP Relay virtual interface configured successfully!")
+    print("DHCP Relay virtual interface configured successfully!")
 
     # Verify the DHCP Relay Configuration
     verify_response = requests.get(API_URL, auth=(USERNAME, PASSWORD))
 
     if verify_response.status_code == 200:
         dhcp_config = verify_response.json()
-        print("\n📌 Current ONOS DHCP Configuration:")
+        print("\n Current ONOS DHCP Configuration:")
         print(json.dumps(dhcp_config, indent=4))
 
         # Save configuration to a file with a timestamp
@@ -59,10 +59,10 @@ if response.status_code in [200, 204]:
         with open(file_path, "w") as file:
             json.dump(dhcp_config, file, indent=4)
 
-        print(f"✅ DHCP Relay configuration saved to {file_path}")
+        print(f" DHCP Relay configuration saved to {file_path}")
 
     else:
-        print(f"❌ Error retrieving configuration: {verify_response.status_code}, {verify_response.text}")
+        print(f" Error retrieving configuration: {verify_response.status_code}, {verify_response.text}")
 
 else:
-    print(f"❌ Error: {response.status_code}, {response.text}")
+    print(f" Error: {response.status_code}, {response.text}")
