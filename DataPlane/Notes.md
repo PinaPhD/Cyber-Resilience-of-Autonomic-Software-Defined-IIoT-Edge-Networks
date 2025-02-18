@@ -16,7 +16,8 @@ Very important Linux commands when working with SNORT IDS in the Mininet Control
 
 - To launch a SYN Flood (DDoS) attack from multiple hosts targeting a victim (ECP node) or (vPAC node): `e4 hping3 -S --flood -p 80 b5`  and `v3 hping3 -S --flood -p 80 r20`
 
-- To launch a UDP Flood attack:  `v4 hping3 --udp -p 80 --flood e1`  - E1 is the MQTT broker in this network topology.
+- To launch a UDP Flood attack:  `v4 hping3 --udp -p 80 --flood e1`   
+  e1 is the MQTT broker in this network topology.
 
 - To launch cross-fire attacks (where attackers flood multiple strategic nodes in a network to disrupt a critical communication path by identifying the bottleneck links and those that carry critical traffic then generating malicious background traffic on these links from multiple mininet hosts): 
 	```bash
