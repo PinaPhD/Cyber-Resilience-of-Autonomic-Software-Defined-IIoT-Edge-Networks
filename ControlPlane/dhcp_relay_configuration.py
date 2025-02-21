@@ -19,17 +19,18 @@ dhcp_relay_config = {
         "org.onosproject.dhcprelay": {
             "dhcpServers": [
                 {
-                    "ip": "192.168.16.254",  # DHCP Server IP based on the DHCP subnet pools
+                    "ip": "192.168.16.254",  # DHCP Server IP
                     "connectPoint": "of:0000000000000001/15"  # Switch Port to connect to DHCP server
                 }
             ],
+            "serverVirtualInterface": "ens3",  
             "dhcpManager": {
-                "allowHostDiscovery": True  # Allow host discovery from DHCP requests
+                "allowHostDiscovery": True
             },
-            "dhcpFpmEnabled": True  # Enable DHCP Forwarding Policy Manager
+            "dhcpFpmEnabled": True
         },
         "org.onosproject.hostlocationprovider": {
-            "useDhcp": True  # Enable DHCP to automatically assign IP addresses to hosts
+            "useDhcp": True
         }
     }
 }
