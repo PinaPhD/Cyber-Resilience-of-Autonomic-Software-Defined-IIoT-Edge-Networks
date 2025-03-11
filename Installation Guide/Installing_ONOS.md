@@ -47,5 +47,7 @@ On the ONOS SDN Controller CLI activate the following applications:
 	onos@root$ app activate org.onosproject.graphitemetrics
 	onos@root$ app activate org.onosproject.cpman
 	onos@root$ app activate org.onosproject.acl
+	onos@root$ app activate org.onosproject.dhcp
+	onos@root$ app activate org.onosproject.openflow-message
 ```
 
