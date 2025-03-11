@@ -114,6 +114,20 @@
       "label": "vPAC_server_cluster",
       "rangeStart": "192.168.27.129",
       "rangeEnd": "192.168.27.254"
+    },
+    "relay": {
+      "server": "192.168.0.1",
+      "interface": "eth0"
     }
+  },
+  "server": {
+    "interface": "eth0",       // Interface for the DHCP server
+    "ipPool": [
+      {
+        "subnet": "192.168.1.0/24",
+        "rangeStart": "192.168.1.10",
+        "rangeEnd": "192.168.1.100"
+      }
+    ]
   }
 }
