@@ -6,9 +6,10 @@ Created on Fri Feb 21 13:35:58 2025
 @author: Agrippina Mwangi
 """
 import random
+import pandas as pd
 from Observe import current_network_state   #Loads the current network state as observed real-time
 
-#devices, links, hosts, flows, port_stats = current_network_state() 
+
 
 
 #Preliminary I: Subnet Pools, K, for different regions
@@ -39,21 +40,18 @@ subnet_pools = {
 }
 
 #Mapping the hosts to the respective regions based on the switch ports
+devices, links, hosts, flows, port_stats = current_network_state() 
 
+switch_to_host_mapping = []   #Store the switch to host mapping
 
+for index,row in hosts.iterrows():
+    if row["locations"]:
+        switch_id= row["locations"][0]["elementId"]
+        port = row["locations"][0]["port"]
+        host_id = row["id"]
+        switch_to_host_mapping.append({"switch_id": switch_id, "port": port, "host_id": host_id})
 
-# Function to generate a random IP from a range
-def generate_ip(subnet_range):
-    start_ip = list(map(int, subnet_range["rangeStart"].split(".")))
-    end_ip = list(map(int, subnet_range["rangeEnd"].split(".")))
+s2h_df = pd.DataFrame(switch_to_host_mapping)
 
-    random_ip = [random.randint(start_ip[i], end_ip[i]) for i in range(4)]
-    return ".".join(map(str, random_ip))
-
-# Example usage: Generate IP for a host in WTG1
-host_label = "WTG1"
-assigned_ip = generate_ip(subnet_pools[host_label])
-print(f"Assigned IP for {host_label}: {assigned_ip}")
-
-
-
+#Sorting the dataframe by switch id 
+s2h_df_sorted = s2h_df.sort_values(by="switch_id").reset_index(drop=True)
