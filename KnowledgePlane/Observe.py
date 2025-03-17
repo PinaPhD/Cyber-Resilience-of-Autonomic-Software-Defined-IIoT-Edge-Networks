@@ -136,6 +136,17 @@ def current_network_state():
     return devices, links, hosts, flows, port_stats
 
 
+'''
+STEP 1: Read SNORT Logs from the different IDSs mounted on the switch network in the data plane
+ --- OBSERVE Module  
+'''
+
+'''
+STEP 2: Assess the network health and categorize it as either busy, stable, or idle.
+'''
+
+
+
 
 if __name__ == "__main__":
     # Reading the current network state

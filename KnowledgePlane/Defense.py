@@ -15,15 +15,7 @@ import pandas as pd
 from requests.auth import HTTPBasicAuth
 from ipaddress import ip_network, ip_address
 from Observe import current_network_state   #Network Health - OODA framework
-
-
-#Connecting to the ONOS SDN Controller
-ONOS_URL = "http://10.10.10.43:8181/onos/v1"
-ONOS_USERNAME = "onos"
-ONOS_PASSWORD = "rocks"  
-
-# Set up basic authentication for the requests
-auth = HTTPBasicAuth(ONOS_USERNAME, ONOS_PASSWORD)
+from host_ip_map import get_host_ip_mapping
 
 
 '''
@@ -111,36 +103,23 @@ host_group_mapping = {
     "vPACSC": ["v1", "v2", "v3", "v4", "v5", "m1", "m2", "m3", "m4", "m5","q1", "q2", "q3", "q4", "q5"]
 }
 
+#Assigning hosts (rIP, vIP1, vIP2)
+host_ip_mapping = get_host_ip_mapping(subnet_pools,host_group_mapping)
+
+
+
 
 '''
-Preliminary II: Assign each host an IP from the tuple:
-HIP = (rIP, vIP1, vIP2)
+STEP 3/4: Read CVSS from threat intelligence sources and determining the threat severity (z)
+--- ORIENT MODULE
 '''
 
-assigned_ips = set()  #Stores all assigned IPS globally to avoid overlaps
-host_ip_mapping = {}
-
-for region, hosts_list in host_group_mapping.items():
-    for host in hosts_list:
-        # Generate 3 IPs for the host from the subnet pool range
-        subnet_info = subnet_pools.get(region)
-        ip_range_start = ip_address(subnet_info["rangeStart"])
-        ip_range_end = ip_address(subnet_info["rangeEnd"])
-        
-        available_ips = [str(ip) for ip in ip_network(f'{subnet_info["subnet"]}').hosts() if ip >= ip_range_start and ip <= ip_range_end]
-        random.shuffle(available_ips)
-        
-        # Assign 3 IPs ensuring no overlap
-        assigned_ips_for_host = []
-        for ip in available_ips:
-            if ip not in assigned_ips and len(assigned_ips_for_host) < 3:
-                assigned_ips.add(ip)
-                assigned_ips_for_host.append(ip)
-        
-        host_ip_mapping[host] = assigned_ips_for_host
 
 
-#Sending the host IP configurations to the ONOS SDN Controller 
-response = requests.get(f"{ONOS_URL}/hosts", auth=auth)
-print(response.json())  # Check the response to ensure correct host data
+
+
+'''
+STEP 5: Perform random host mutation for targetted regions
+--- DEFENSE MODULE
+'''
 
