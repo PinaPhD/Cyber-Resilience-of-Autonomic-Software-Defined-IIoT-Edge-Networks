@@ -29,12 +29,13 @@ from Observe import current_network_state   #Network Health - OODA framework
 #Defining host dictionary structured as a tuple comprising (rIP, vIP1, vIP2)
 switch_host_info = initialize_mtd()
 
-
+devices, links, hosts, flows, port_stats = current_network_state() 
 
 '''
 STEP 3/4: Read CVSS from threat intelligence sources and determining the threat severity (Z)
 --- ORIENT MODULE
 '''
+
 Z=9
 
 if Z is None:
