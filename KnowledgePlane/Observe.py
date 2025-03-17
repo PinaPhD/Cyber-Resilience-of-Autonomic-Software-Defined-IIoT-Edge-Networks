@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Sun Feb 16 20:27:17 2025
-Event triggered moving target defense module running at the Knowledge Plane of the Software-defined IIoT-Edge network
-@author: agrippina Mwangi
+    Created on Sun Feb 16 20:27:17 2025
+    @Task: 
+        - Reading the SNORT logs from the data plane and storing the information to a knowledge base (InfluxDB/MySQL)
+        - Reading the Network Health State from the data plane and storing this information to a knowledge base (InfluxDB/MySQL)
+    @author: agrippina Mwangi 
 """
 
 import requests
@@ -14,13 +16,11 @@ from datetime import datetime
 import json  # Import JSON module to convert dict to string
 
 
-
 '''
     ONOS SDN controller cluster interacting with the Knowledge Base
     Connecting to the primary SDN controller using a 8181 RESTful API based url and 
     BASE24 Authentication (Plain user/password credentials)
 '''
-
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -140,6 +140,8 @@ def current_network_state():
 STEP 1: Read SNORT Logs from the different IDSs mounted on the switch network in the data plane
  --- OBSERVE Module  
 '''
+
+
 
 '''
 STEP 2: Assess the network health and categorize it as either busy, stable, or idle.
