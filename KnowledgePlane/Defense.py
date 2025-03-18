@@ -16,7 +16,7 @@ from requests.auth import HTTPBasicAuth
 from ipaddress import ip_network, ip_address
 from Initialize import initialize_mtd
 from Observe import current_network_state   #Network Health - OODA framework
-
+from Orient import get_cvss_scores
 
 '''
     Initialize section ---> In the Initialize_mtd() function
@@ -29,14 +29,17 @@ from Observe import current_network_state   #Network Health - OODA framework
 #Defining host dictionary structured as a tuple comprising (rIP, vIP1, vIP2)
 switch_host_info = initialize_mtd()
 
+#Reading the current network state
 devices, links, hosts, flows, port_stats = current_network_state() 
 
+
+#Reading the knowledge base for SNORT Logs stored in the previous 1 minute:
+cve_id = "CVE-2021-44228"
 '''
 STEP 3/4: Read CVSS from threat intelligence sources and determining the threat severity (Z)
 --- ORIENT MODULE
 '''
-
-Z=9
+Z = get_cvss_scores(cve_id)
 
 if Z is None:
     print("No threat detected")
