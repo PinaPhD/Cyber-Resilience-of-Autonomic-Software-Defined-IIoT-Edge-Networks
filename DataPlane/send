@@ -1,0 +1,5 @@
+#!/bin/bash
+while true; do
+    iperf -c e1 -u -b $(( RANDOM % 100 + 1 ))M -t 1
+    sleep 1
+done
