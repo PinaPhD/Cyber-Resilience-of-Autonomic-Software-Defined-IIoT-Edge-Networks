@@ -32,25 +32,26 @@ switch_host_info = initialize_mtd()
 #Reading the current network state
 devices, links, hosts, flows, port_stats = current_network_state() 
 
-
 #Reading the knowledge base for SNORT Logs stored in the previous 1 minute:
-cve_id = "CVE-2021-44228"
+cve_id = ["CVE-2022-22965"]
+
 '''
 STEP 3/4: Read CVSS from threat intelligence sources and determining the threat severity (Z)
 --- ORIENT MODULE
 '''
 Z = get_cvss_scores(cve_id)
 
+
 if Z is None:
     print("No threat detected")
 if Z < 4.0:
-    print("Recon attack detected")
+    print("Low threat level")
 elif 4.0 <= Z < 7.0:
     print("Medium threat level")
 elif 7.0<= Z <= 9.0:
     print("Hight threat level")    
 else:
-    print("Critical")
+    print("Critical threat level")
 
 
 
