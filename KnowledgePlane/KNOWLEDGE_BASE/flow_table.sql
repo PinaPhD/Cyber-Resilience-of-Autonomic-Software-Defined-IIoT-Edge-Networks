@@ -1,0 +1,20 @@
+CREATE TABLE flow_records (
+    id BIGINT PRIMARY KEY,
+    groupId INT,
+    state VARCHAR(50),
+    life INT,
+    liveType VARCHAR(50),
+    lastSeen BIGINT,
+    packets BIGINT,
+    bytes BIGINT,
+    appId VARCHAR(255),
+    priority INT,
+    timeout INT,
+    isPermanent BOOLEAN,
+    deviceId VARCHAR(255),
+    tableId INT,
+    tableName VARCHAR(255),
+    treatment JSON,
+    selector JSON,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
