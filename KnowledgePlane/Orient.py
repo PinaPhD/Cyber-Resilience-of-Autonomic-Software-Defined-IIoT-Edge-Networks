@@ -46,6 +46,10 @@ def get_cvss_scores(cve_ids):
     return cvss_cve_map
 
 
-
+def multi_log_analysis():
+    cve_ids_pool = {}
+    
+    
+    return cve_ids_pool
 
 
