@@ -1,0 +1,66 @@
+# $Id: local.rules,v 1.11 2004/07/23 20:15:44 bmc Exp $
+# ----------------
+# LOCAL RULES
+# ----------------
+# This file intentionally does not come with signatures.  Put your local
+# additions here.
+
+# Modbus TCP Write Single Register Attack
+alert tcp any any -> any 502 (msg:"Modbus Write Single Register Attack [CVE-2019-10988, attack-mitre-T0860]"; content:"|06|"; offset:1; depth:1; classtype:attempted-dos; sid:1000001; rev:1; reference:cve,CVE-2019-10988; reference:attack-mitre,attack-mitre-T0860;)
+
+# DNP3 Malformed Packet
+alert udp any any -> any 20000 (msg:"DNP3 Malformed Packet [CVE-2015-7916, attack-mitre-T0856]"; content:"|05 64 00 00 00|"; depth:5; classtype:attempted-admin; sid:1000002; rev:1; reference:cve,CVE-2015-7916; reference:attack-mitre,attack-mitre-T0856;)
+
+# IEC 60870-5-104 Exploit
+alert tcp any any -> any 2404 (msg:"IEC 60870-5-104 Exploit [CVE-2022-29544, attack-mitre-T0859]"; content:"|68|"; depth:1; classtype:attempted-admin; sid:1000003; rev:1; reference:cve,CVE-2022-29544; reference:attack-mitre,attack-mitre-T0859;)
+
+# Modbus Read Device ID Spoof
+alert tcp any any -> any 502 (msg:"Modbus Read Device ID Spoof [attack-mitre-T0859]"; content:"|43|"; offset:7; classtype:attempted-recon; sid:1000004; rev:1; reference:attack-mitre,attack-mitre-T0859;)
+
+# IoT Botnet Infection
+alert udp any any -> any 23 (msg:"IoT Botnet Infection [CVE-2016-10401, attack-mitre-T0747]"; content:"|00 01 86 a0|"; depth:4; classtype:trojan-activity; sid:1000005; rev:1; reference:cve,CVE-2016-10401; reference:attack-mitre,attack-mitre-T0747;)
+
+# MQTT Unauthorized Access
+alert tcp any any -> any 1883 (msg:"MQTT Unauthorized Access [CVE-2017-7653, attack-mitre-T0852]"; content:"|10|"; depth:1; classtype:attempted-user; sid:1000006; rev:1; reference:cve,CVE-2017-7653; reference:attack-mitre,attack-mitre-T0852;)
+
+# CoAP Unauthorized Access
+alert udp any any -> any 5683 (msg:"CoAP Unauthorized Access [CVE-2019-15889, attack-mitre-T0853]"; content:"|43|"; depth:1; classtype:attempted-user; sid:1000007; rev:1; reference:cve,CVE-2019-15889; reference:attack-mitre,attack-mitre-T0853;)
+
+# UDP Chargen DoS Attack
+alert udp any any -> any 19 (msg:"UDP Chargen DoS Attack [CVE-1999-0103, attack-mitre-T1498]"; content:"|00000000|"; classtype:attempted-dos; sid:1000008; rev:1; reference:cve,CVE-1999-0103; reference:attack-mitre,attack-mitre-T1498;)
+
+# HTTP Slowloris DoS Attack
+alert tcp any any -> any 80 (msg:"HTTP Slowloris DoS Attack [CVE-2007-6750, attack-mitre-T1499]"; flow:to_server,established; content:"Keep-Alive"; depth:10; classtype:attempted-dos; sid:1000009; rev:1; reference:cve,CVE-2007-6750; reference:attack-mitre,attack-mitre-T1499;)
+
+# FTP Brute-Force
+alert tcp any any -> any 21 (msg:"FTP Brute-Force [attack-mitre-T1110]"; flow:to_server,established; content:"530 Login incorrect"; classtype:attempted-user; sid:1000010; rev:1; reference:attack-mitre,attack-mitre-T1110;)
+
+# SSH Brute-Force
+alert tcp any any -> any 22 (msg:"SSH Brute-Force [attack-mitre-T1110]"; flow:to_server,established; content:"Failed password"; classtype:attempted-user; sid:1000011; rev:1; reference:attack-mitre,attack-mitre-T1110;)
+
+# SNMP Unauthorized Access
+alert udp any any -> any 161 (msg:"SNMP Unauthorized Access [CVE-2017-6736, attack-mitre-T1021]"; content:"|30|"; depth:1; classtype:attempted-user; sid:1000012; rev:1; reference:cve,CVE-2017-6736; reference:attack-mitre,attack-mitre-T1021;)
+
+# ICMP Redirect Attack
+alert icmp any any -> any any (msg:"ICMP Redirect Attack [attack-mitre-T1595]"; itype:5; classtype:attempted-recon; sid:1000013; rev:1; reference:attack-mitre,attack-mitre-T1595;)
+
+# Nmap XMAS Scan
+alert tcp any any -> any any (msg:"Nmap XMAS Scan [attack-mitre-T1046]"; flags: FPU; classtype:attempted-recon; sid:1000014; rev:1; reference:attack-mitre,attack-mitre-T1046;)
+
+# Malware Download
+alert tcp any any -> any any (msg:"Malware Download [CVE-2016-0034, attack-mitre-T1203]"; content:"GET"; http_uri; pcre:"/.*\.(exe|dll|scr|bin|js|jar|apk|bat|vbs)$/U"; classtype:trojan-activity; sid:1000017; rev:1; reference:cve,CVE-2016-0034; reference:attack-mitre,attack-mitre-T1203;)
+
+# SMB EternalBlue
+alert tcp any any -> any 445 (msg:"SMB EternalBlue Exploit [CVE-2017-0144, attack-mitre-T1210]"; content:"|ff 53 4d 42|"; depth:4; classtype:attempted-admin; sid:1000018; rev:1; reference:cve,CVE-2017-0144; reference:attack-mitre,attack-mitre-T1210;)
+
+# RDP BlueKeep
+alert tcp any any -> any 3389 (msg:"RDP BlueKeep Exploit [CVE-2019-0708, attack-mitre-T1210]"; content:"|03 00 00 13 0e e0 00 00|"; depth:8; classtype:attempted-admin; sid:1000019; rev:1; reference:cve,CVE-2019-0708; reference:attack-mitre,attack-mitre-T1210;)
+
+# DNS Exfiltration
+alert udp any any -> any 53 (msg:"DNS Exfiltration [attack-mitre-T1071]"; content:"|00 00 29 10 00 00 00 80 00 00|"; classtype:attempted-recon; sid:1000022; rev:1; reference:attack-mitre,attack-mitre-T1071;)
+
+# DNS Tunneling
+alert udp any any -> any 53 (msg:"DNS Tunneling [CVE-2019-6487, attack-mitre-T1572]"; content:".xyz"; pcre:"/\.xyz$/"; classtype:attempted-recon; sid:1000023; rev:1; reference:cve,CVE-2019-6487; reference:attack-mitre,attack-mitre-T1572;)
+
+
+
