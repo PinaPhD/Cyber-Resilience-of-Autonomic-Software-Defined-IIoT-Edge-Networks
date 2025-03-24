@@ -50,7 +50,7 @@ def dhcp_network_plan():
     '''
     
     #Mapping the hosts to the respective regions based on the switch ports
-    devices, links, hosts, flows, port_stats = current_network_state() 
+    devices, links, hosts, flows, port_stats, snort_logs = current_network_state() 
     
     switch_to_host_mapping = []   #Store the switch to host mapping
     
