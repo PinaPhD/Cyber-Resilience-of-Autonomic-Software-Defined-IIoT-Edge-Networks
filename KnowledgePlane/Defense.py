@@ -39,10 +39,9 @@ cve_id = ["CVE-2022-22965"]
 STEP 3/4: Read CVSS from threat intelligence sources and determining the threat severity (Z)
 --- ORIENT MODULE
 '''
-Z = get_cvss_scores(cve_id)
-
-
-
+threat_map = get_cvss_scores()
+for cve, details in threat_map.items():
+    print(f"{cve}: CVSS={details['cvss_score']} | Severity={details['severity_label']} ({details['severity_value']})")
 
 
 '''

@@ -131,15 +131,20 @@ def get_port_statistics():
     except requests.exceptions.RequestException as e:
         print(f"An error occurred while fetching network port statistics: {e}")
 
-
+def get_snort_logs():
+    snort_logs= {}
+    
+    return snort_logs
+    
 def current_network_state():
     devices = get_devices()
     links = get_links()
     hosts = get_hosts()
     flows = get_flows()
     port_stats = get_port_statistics()
+    snort_logs = get_snort_logs()
        
-    return devices, links, hosts, flows, port_stats
+    return devices, links, hosts, flows, port_stats, snort_logs
 
 '''
 Inserting records into the database
@@ -422,16 +427,21 @@ def insert_port_statistics_into_db(port_stats_df):
         if conn:
             conn.close()
 
-'''
-STEP 1: Read SNORT Logs from the different IDSs mounted on the switch network in the data plane
- --- OBSERVE Module  
-'''
+def insert_threat_to_db(Z, level):
+    conn = mysql.connector.connect(
+        host='localhost',
+        user='root',
+        password='Baarn@2026_',
+        database='KNOWLEDGE_BASE'
+    )
+    cursor = conn.cursor()
+    timestamp = datetime.now()
+    sql = "INSERT INTO threat_levels (timestamp, z_value, threat_level) VALUES (%s, %s, %s)"
+    cursor.execute(sql, (timestamp, Z, level))
+    conn.commit()
+    cursor.close()
+    conn.close()
 
-
-
-'''
-STEP 2: Assess the network health and categorize it as either busy, stable, or idle.
-'''
 
 if __name__ == "__main__":
     try:
@@ -464,7 +474,18 @@ if __name__ == "__main__":
                 insert_port_statistics_into_db(port_stats)
             else:
                 print("No port statistics available for insertion.")
-
+                
+            '''
+            STEP 1: Read SNORT Logs from the different IDSs mounted on the switch network in the data plane and insert them to the Knowledge_Base
+             --- OBSERVE Module  
+            '''
+            
+            
+            '''
+            STEP 2: Assess the network health and categorize it as either busy, stable, or idle.
+            '''
+            
+            
             # Sleep for 1 second before the next iteration
             time.sleep(1)
 
