@@ -4,7 +4,6 @@ CREATE TABLE rhm_mutation_log (
     real_ip VARCHAR(45),
     mutated_vip VARCHAR(45),
     mac_address VARCHAR(50),
-    rhm_status VARCHAR(20),
     severity VARCHAR(20),
     timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
 );
