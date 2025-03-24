@@ -469,4 +469,4 @@ if __name__ == "__main__":
             time.sleep(1)
 
     except KeyboardInterrupt:
-        print("\nUser requested to stop. Exiting gracefully...")
+        print("\nUser requested to stop. Exiting the MTD Framework...")

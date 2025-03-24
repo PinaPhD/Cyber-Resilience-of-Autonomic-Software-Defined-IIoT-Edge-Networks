@@ -42,17 +42,6 @@ STEP 3/4: Read CVSS from threat intelligence sources and determining the threat 
 Z = get_cvss_scores(cve_id)
 
 
-if Z is None:
-    print("No threat detected")
-if Z < 4.0:
-    print("Low threat level")
-elif 4.0 <= Z < 7.0:
-    print("Medium threat level")
-elif 7.0<= Z <= 9.0:
-    print("Hight threat level")    
-else:
-    print("Critical threat level")
-
 
 
 

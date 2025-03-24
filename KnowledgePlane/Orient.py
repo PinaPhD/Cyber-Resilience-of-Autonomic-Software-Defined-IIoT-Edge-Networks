@@ -7,6 +7,8 @@
 """
 
 import requests
+from datetime import datetime
+import mysql.connector
 from Observe import current_network_state   #Loads the current network state as observed real-time
 
 #Reading the current network state
@@ -53,3 +55,31 @@ def multi_log_analysis():
     return cve_ids_pool
 
 
+
+def insert_threat_to_db(Z, level):
+    conn = mysql.connector.connect(
+        host='localhost',
+        user='root',
+        password='Baarn@2026_',
+        database='KNOWLEDGE_BASE'
+    )
+    cursor = conn.cursor()
+    timestamp = datetime.now()
+    sql = "INSERT INTO threat_levels (timestamp, z_value, threat_level) VALUES (%s, %s, %s)"
+    cursor.execute(sql, (timestamp, Z, level))
+    conn.commit()
+    cursor.close()
+    conn.close()
+    
+    
+def determine_level(Z):
+    if Z is None:
+        return "none", 0.0
+    elif Z < 4.0:
+        return "low", 1.0
+    elif 4.0 <= Z < 7.0:
+        return "medium", 2.0
+    elif 7.0 <= Z <= 9.0:
+        return "high", 3.0
+    else:
+        return "critical", 4.0
