@@ -36,7 +36,7 @@ DB_PASSWORD = "Baarn@2026_"
 DB_NAME = "KNOWLEDGE_BASE"
 
 switch_host_info = initialize_mtd()  #Defining host dictionary structured as a tuple comprising (rIP, vIP1, vIP2)
-host_group_mapping = dhcp_network_plan()  #To access subnet pools and host group mapping
+_, _, host_group_mapping = dhcp_network_plan() #To access subnet pools and host group mapping
 devices, links, hosts, flows, port_stats, snort_logs = current_network_state() #Reading the current network state
 
 #Store all the assigned IPs to avoid reusing them
@@ -51,7 +51,7 @@ threat_map = get_cvss_scores()
 for cve, details in threat_map.items():
     print(f"{cve}: CVSS={details['cvss_score']} | Severity={details['severity_label']} ({details['severity_value']})")
 
-def log_mutation_event_to_mysql(host_id, rIP, new_vIP, vMAC, rho_rhm, severity_level):
+def log_mutation_event_to_mysql(host_id, rIP, new_vIP, vMAC, severity_level):
     #connect to the MYSQL server running on port 
     conn = None
     cursor = None
@@ -68,11 +68,11 @@ def log_mutation_event_to_mysql(host_id, rIP, new_vIP, vMAC, rho_rhm, severity_l
         
         query = """
         INSERT INTO rhm_mutation_log
-        (host_id, real_ip, mutated_vip, mac_address, rhm_status, severity, timestamp)
-        VALUES (%s, %s, %s, %s, %s, %s, %s)
+        (host_id, real_ip, mutated_vip, mac_address, severity, timestamp)
+        VALUES (%s, %s, %s, %s, %s, %s)
         """
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        values = (host_id, rIP, new_vIP, vMAC, rho_rhm, severity_level, timestamp)
+        values = (host_id, rIP, new_vIP, vMAC, severity_level, timestamp)
 
         cursor.execute(query, values)
         conn.commit()
@@ -84,7 +84,8 @@ def log_mutation_event_to_mysql(host_id, rIP, new_vIP, vMAC, rho_rhm, severity_l
         print(f">> [ERROR] Failed to log to MySQL: {err}")
         
     
-def perform_ofrhm(host_info):
+def perform_ofrhm(host_info,severity_level):
+    mutated_hosts = []
     print(">> [ACTION] Performing OF-RHM on", host_info)
     for index, row in host_info.iterrows():
         host_name = row['host_names']
@@ -121,7 +122,16 @@ def perform_ofrhm(host_info):
         assigned_ips.add(new_ip)  # Mark as used
         print(f">> [OF-RHM] Host {host_name} (rIP: {rIP}) mutated to {new_ip} in region {region}")
         
-        return new_ip    #This should go to the mutation record and to the ACT Module for update in the Control Plane Flow Rule and Intents Data Store
+        #This should go to the mutation record and to the ACT Module for update in the Control Plane Flow Rule and Intents Data Store
+        log_mutation_event_to_mysql(
+    host_id=host_name,
+    rIP=rIP,
+    new_vIP=new_ip,
+    vMAC=row['host_id'].split('/')[0],
+    severity_level=severity_level
+)
+        mutated_hosts.append((host_name, new_ip)) 
+    return mutated_hosts
 
 def isolate_host(host_info):
     print(">> [ACTION] Isolating host", host_info)
@@ -145,8 +155,10 @@ def log_forensics(cve_id):
     print(f">> [LOG] {cve_id} flagged for manual review/forensics.")
 
 def is_network_degraded():
-    # Placeholder: in practice, check CPU/mem/traffic stats
-    return random.choice([True, False])
+    # Return network state from the Knowledge base
+    G_health = []
+    
+    return G_health
 
 
 '''
