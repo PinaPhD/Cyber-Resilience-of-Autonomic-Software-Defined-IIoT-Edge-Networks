@@ -7,12 +7,6 @@
 """
 
 import random
-import requests
-import time
-import json
-import numpy as np
-import pandas as pd
-from requests.auth import HTTPBasicAuth
 from ipaddress import ip_network, ip_address
 from Initialize import initialize_mtd
 from Initialize import dhcp_network_plan
@@ -83,54 +77,60 @@ def log_mutation_event_to_mysql(host_id, rIP, new_vIP, vMAC, severity_level):
     except mysql.connector.Error as err:
         print(f">> [ERROR] Failed to log to MySQL: {err}")
         
-    
-def perform_ofrhm(host_info,severity_level):
+def perform_ofrhm(host_info, severity_level=None):
     mutated_hosts = []
-    print(">> [ACTION] Performing OF-RHM on", host_info)
+    print(">> [ACTION] Performing OF-RHM with dual vIPs on", host_info)
+
     for index, row in host_info.iterrows():
         host_name = row['host_names']
         rIP = row[0]
         vIP1 = row[1]
         vIP2 = row[2]
-        
-        #Now, lets determine the target region based on the IP_dst information based on the multi-log ingestion analysis
-        region = None
-        for reg, hosts in host_group_mapping.items():
-            if host_name in hosts:
-                region = reg
-                break
-            
-        #It is my sincere hope that we never get this message  :-) LOL 
+
+        region = next((reg for reg, hosts in host_group_mapping.items() if host_name in hosts), None)
+
         if not region:
             print(f">> [OF-RHM] Region not found for host {host_name}. Skipping.")
             continue
-        
+
         subnet_info = dhcp_network_plan()[0][region]
         ip_range_start = ip_address(subnet_info["rangeStart"])
         ip_range_end = ip_address(subnet_info["rangeEnd"])
         subnet_ips = [str(ip) for ip in ip_network(subnet_info["subnet"]).hosts()
                       if ip_range_start <= ip <= ip_range_end]
-        
-        #Storing the available IP pool
-        available_ips = [ip for ip in subnet_ips if ip not in assigned_ips]
-        
+
+        # Exclude all already assigned and currently used vIPs
+        available_ips = [ip for ip in subnet_ips if ip not in assigned_ips and ip not in [vIP1, vIP2]]
+
         if not available_ips:
             print(f">> [OF-RHM] No available IPs in pool for host {host_name}. Mutation skipped.")
             continue
-        
-        new_ip =random.choice(available_ips)
-        assigned_ips.add(new_ip)  # Mark as used
-        print(f">> [OF-RHM] Host {host_name} (rIP: {rIP}) mutated to {new_ip} in region {region}")
-        
-        #This should go to the mutation record and to the ACT Module for update in the Control Plane Flow Rule and Intents Data Store
+
+        new_vIP = random.choice(available_ips)
+        assigned_ips.add(new_vIP)
+
+        # Let's assume vIP1 is active and gets replaced first
+        old_vIP = vIP1
+        vIP1 = new_vIP
+
+        print(f">> [OF-RHM] Host {host_name} mutated: vIP1 {old_vIP} → {new_vIP} (rIP remains: {rIP})")
+
         log_mutation_event_to_mysql(
-    host_id=host_name,
-    rIP=rIP,
-    new_vIP=new_ip,
-    vMAC=row['host_id'].split('/')[0],
-    severity_level=severity_level
-)
-        mutated_hosts.append((host_name, new_ip)) 
+            host_id=host_name,
+            rIP=rIP,
+            new_vIP=new_vIP,
+            vMAC=row['host_id'].split('/')[0],
+            severity_level=severity_level
+        )
+
+        mutated_hosts.append({
+            "host": host_name,
+            "rIP": rIP,
+            "new_vIP1": vIP1,
+            "vIP2": vIP2,
+            "replaced": old_vIP
+        })
+
     return mutated_hosts
 
 def isolate_host(host_info):
@@ -154,11 +154,79 @@ def increase_monitoring_flow():
 def log_forensics(cve_id):
     print(f">> [LOG] {cve_id} flagged for manual review/forensics.")
 
-def is_network_degraded():
-    # Return network state from the Knowledge base
-    G_health = []
+def is_network_degraded(r=2): 
+    """
+    Determines the current network health based on a rolling window of 'r' minutes.
+    Network health states:
+        - 'idle': Very low traffic, no errors or drops.
+        - 'stable': Moderate traffic, acceptable error/drop rates.
+        - 'busy': High traffic or noticeable errors/drops.
+        - 'unknown': DB issues or insufficient data.
     
-    return G_health
+    :param r: Rolling window size in minutes (default: 2 minutes)
+    :return: 'idle', 'stable', 'busy', or 'unknown'
+    """
+    import mysql.connector
+    from datetime import datetime
+
+    try:
+        conn = mysql.connector.connect(
+            host=DB_HOST,
+            user=DB_USER,
+            password=DB_PASSWORD,
+            database=DB_NAME
+        )
+        cursor = conn.cursor(dictionary=True)
+
+        # Compute start time for the rolling window using timedelta
+        time_threshold = int((datetime.now() - timedelta(minutes=r)).timestamp())
+
+        cursor.execute("""
+            SELECT 
+                bytesSentRate, bytesReceivedRate,
+                packetsRxDropped, packetsTxDropped,
+                packetsRxErrors, packetsTxErrors
+            FROM port_statistics
+            WHERE timestamp >= %s
+        """, (time_threshold,))
+        
+        rows = cursor.fetchall()
+        cursor.close()
+        conn.close()
+
+        if not rows:
+            print(">> [INFO] No recent data found in port_statistics.")
+            return "idle"
+
+        total_sent_rate = 0
+        total_recv_rate = 0
+        total_drops = 0
+        total_errors = 0
+
+        for row in rows:
+            total_sent_rate += row["bytesSentRate"] or 0
+            total_recv_rate += row["bytesReceivedRate"] or 0
+            total_drops += (row["packetsRxDropped"] or 0) + (row["packetsTxDropped"] or 0)
+            total_errors += (row["packetsRxErrors"] or 0) + (row["packetsTxErrors"] or 0)
+
+        avg_sent = total_sent_rate / len(rows)
+        avg_recv = total_recv_rate / len(rows)
+
+        # Thresholds based on 10Gbps bandwidth
+        idle_threshold = 10 * 1e6        # 10 MB/sec
+        busy_threshold = 800 * 1e6       # 800 MB/sec
+        
+        if avg_sent < idle_threshold and avg_recv < idle_threshold and total_drops == 0 and total_errors == 0:
+            return "idle"
+        elif avg_sent > busy_threshold or avg_recv > busy_threshold or total_drops > 50 or total_errors > 10:
+            return "busy"
+        else:
+            return "stable"
+        
+
+    except mysql.connector.Error as err:
+        print(f">> [ERROR] DB query failed: {err}")
+        return "unknown"
 
 
 '''
@@ -190,10 +258,22 @@ def response_to_threat(cve_id, severity_label, host_info):
     
     elif severity_label == "medium":
         log_incident(cve_id, severity_label)
-        increase_monitoring_flow()
-        if is_network_degraded():
-            perform_ofrhm(host_info)
         notify_admin(cve_id, severity_label)
+        increase_monitoring_flow()
+        network_state = is_network_degraded()
+        if network_state == "busy":
+            print(">> Network is busy. Avoid OF-RHM.")
+            print(f">> [DECISION] OF-RHM skipped for {cve_id} due to BUSY network state.")
+        elif network_state == "idle":
+            print(">> Network is idle. Safe for mutation.")
+            print(f">> [DECISION] OF-RHM performed for {cve_id} in IDLE network state.")
+            perform_ofrhm(host_info)
+        elif network_state == "stable":
+            print(">> Network is stable. Proceed with caution.")
+            #Perform selective OF-RHM to be decided
+            print(f">> [DECISION] OF-RHM deferred or selectively applied for {cve_id} in STABLE network state.")
+        else:
+            print(">> Unknown network state. Log this information for the Network Engineer")            
         
     elif severity_label == "none":
         print("None: Continue Monitoring.")
@@ -204,4 +284,5 @@ def response_to_threat(cve_id, severity_label, host_info):
         
     else:
         print("Unknown severity level encountered")
+        print(f">> [DECISION] OF-RHM not executed for {cve_id} due to UNKNOWN network state.")
         
