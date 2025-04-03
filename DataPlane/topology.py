@@ -121,6 +121,7 @@ class sdnnet(Topo):
         s2 = self.addSwitch('s2')
         s3 = self.addSwitch('s3')
         s4 = self.addSwitch('s4')
+        f1 = self.addSwitch('f1')
         
         # Distribution Switches
         s5 = self.addSwitch('s5')
@@ -146,6 +147,7 @@ class sdnnet(Topo):
         self.addLink(s1, s2)
         self.addLink(s2, s3)
         self.addLink(s3, s4)
+        self.addLink(s2, f1)
 
         # Connecting Spine and Distribution Layers (Building redundancy)
         self.addLink(s1, s5)

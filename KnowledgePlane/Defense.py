@@ -7,6 +7,7 @@
 """
 
 import random
+import requests
 from ipaddress import ip_network, ip_address
 from Initialize import initialize_mtd
 from Initialize import dhcp_network_plan
@@ -28,6 +29,11 @@ DB_HOST = "10.10.10.30"
 DB_USER = "pina254"
 DB_PASSWORD = "Baarn@2026_"
 DB_NAME = "KNOWLEDGE_BASE"
+
+# ONOS controller details
+ONOS_CONTROLLER = "http://10.10.10.43:8181"
+USERNAME = "onos"
+PASSWORD = "rocks"
 
 switch_host_info = initialize_mtd()  #Defining host dictionary structured as a tuple comprising (rIP, vIP1, vIP2)
 _, _, host_group_mapping = dhcp_network_plan() #To access subnet pools and host group mapping
@@ -99,15 +105,18 @@ def perform_ofrhm(host_info, severity_level=None):
         subnet_ips = [str(ip) for ip in ip_network(subnet_info["subnet"]).hosts()
                       if ip_range_start <= ip <= ip_range_end]
 
-        # Exclude all already assigned and currently used vIPs
-        available_ips = [ip for ip in subnet_ips if ip not in assigned_ips and ip not in [vIP1, vIP2]]
+        # Strictly apply: I_K = { x ∈ I | x ∈ pool(K) ∧ x ∉ { rIP_i ∀i ∈ H } }
+        excluded_ips = assigned_ips.union({rIP})  # Also exclude rIP
+        available_ips = [ip for ip in subnet_ips if ip not in excluded_ips]
 
         if not available_ips:
             print(f">> [OF-RHM] No available IPs in pool for host {host_name}. Mutation skipped.")
             continue
 
         new_vIP = random.choice(available_ips)
-        assigned_ips.add(new_vIP)
+        assigned_ips.add(new_vIP)  # Already present
+        assigned_ips.add(rIP)      # Add real IP explicitly to exclusion pool
+
 
         # Let's assume vIP1 is active and gets replaced first
         old_vIP = vIP1
@@ -133,17 +142,25 @@ def perform_ofrhm(host_info, severity_level=None):
 
     return mutated_hosts
 
-def isolate_host(host_info):
-    print(">> [ACTION] Isolating host", host_info)
-
-def block_source_ip(host_info):
-    print(">> [ACTION] Blocking source IP", host_info)
-
+'''
+     For the functions notify_admin() and log_incident() these may be updated depending
+     on the approach used by the organization (email, ticketing system at the NOC center) etc...
+'''
 def notify_admin(cve_id, severity_label):
     print(f">> [NOTIFY] Admin notified of {severity_label.upper()} threat: {cve_id}")
 
 def log_incident(cve_id, severity_label):
     print(f">> [LOG] Incident logged: {cve_id} ({severity_label})")
+    
+'''
+    Other defense module actions are:
+'''
+
+def isolate_host(host_info):
+    print(">> [ACTION] Isolating host", host_info)
+
+def block_source_ip(host_info):
+    print(">> [ACTION] Blocking source IP", host_info)
 
 def increase_flow_timeout():
     print(">> [ACTION] Flow timeout increased.")
@@ -228,6 +245,39 @@ def is_network_degraded(r=2):
         print(f">> [ERROR] DB query failed: {err}")
         return "unknown"
 
+
+'''
+    ACT Module
+'''
+def push_intent_to_onos(app_id, host_id, new_ip, mac):
+    intent = {
+        "type": "HostToHostIntent",
+        "appId": app_id,
+        "priority": 200,
+        "one": host_id,
+        "two": host_id,
+        "constraints": [],
+        "selector": {
+            "criteria": [
+                {"type": "ETH_DST", "mac": mac},
+                {"type": "IPV4_DST", "ip": new_ip + "/32"}
+            ]
+        },
+        "treatment": {"instructions": []}
+    }
+    try:
+        response = requests.post(
+            f"{ONOS_CONTROLLER}/onos/v1/intents",
+            headers={"Content-Type": "application/json"},
+            json=intent,
+            auth=(USERNAME, PASSWORD)
+        )
+        if response.status_code in [200, 201]:
+            print(f">> [ONOS] Intent successfully pushed for host {host_id} ({new_ip})")
+        else:
+            print(f">> [ERROR] Intent push failed: {response.status_code}, {response.text}")
+    except Exception as e:
+        print(f">> [EXCEPTION] Failed to reach ONOS controller: {e}")
 
 '''
 STEP 5: 

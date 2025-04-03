@@ -449,7 +449,7 @@ if __name__ == "__main__":
             print("\nPress **Ctrl + C** to stop execution... Running data collection & insertion...\n")
             
             # Reading the current network state
-            devices, links, hosts, flows, port_stats = current_network_state()
+            devices, links, hosts, flows, port_stats, snort_logs = current_network_state()
 
             # Insert flows into DB
             if flows is not None and not flows.empty:
