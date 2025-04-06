@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<net id="0" netclass="eDSPN"
+  xmlns="http://pdv.cs.tu-berlin.de/TimeNET/schema/eDSPN"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pdv.cs.tu-berlin.de/TimeNET/schema/eDSPN etc/schemas/eDSPN.xsd">
+  <place id="0.0" initialMarking="users" type="node">
+    <graphics orientation="0" x="230" y="100"/>
+    <label id="0.0.0" text="idle" type="text">
+      <graphics x="-10" y="-40"/>
+    </label>
+  </place>
+  <place id="0.1" initialMarking="0" type="node">
+    <graphics orientation="0" x="230" y="300"/>
+    <label id="0.1.0" text="queue" type="text">
+      <graphics x="-20" y="-40"/>
+    </label>
+  </place>
+  <exponentialTransition DTSPNpriority="1" delay="arrival_time" id="0.3"
+    preemptionPolicy="PRD" serverType="ExclusiveServer" type="node">
+    <graphics orientation="-90" x="340" y="200"/>
+    <label id="0.3.0" text="arrival" type="text">
+      <graphics x="30" y="-10"/>
+    </label>
+  </exponentialTransition>
+  <exponentialTransition DTSPNpriority="1" delay="service_time"
+    id="0.12" preemptionPolicy="PRD" serverType="ExclusiveServer" type="node">
+    <graphics orientation="-90" x="120" y="200"/>
+    <label id="0.12.0" text="service" type="text">
+      <graphics x="-70" y="-10"/>
+    </label>
+  </exponentialTransition>
+  <arc fromNode="0.0" id="0.5" toNode="0.3" type="connector">
+    <inscription id="0.5.0" text="1" type="inscriptionText">
+      <graphics x="0" y="0"/>
+    </inscription>
+    <handle id="0.5.1">
+      <graphics orientation="0" x="340" y="100"/>
+    </handle>
+  </arc>
+  <arc fromNode="0.3" id="0.6" toNode="0.1" type="connector">
+    <inscription id="0.6.0" text="1" type="inscriptionText">
+      <graphics x="0" y="0"/>
+    </inscription>
+    <handle id="0.6.1">
+      <graphics orientation="0" x="340" y="300"/>
+    </handle>
+  </arc>
+  <arc fromNode="0.1" id="0.2" toNode="0.12" type="connector">
+    <inscription id="0.2.0" text="1" type="inscriptionText">
+      <graphics x="0" y="0"/>
+    </inscription>
+    <handle id="0.2.1">
+      <graphics orientation="0" x="120" y="300"/>
+    </handle>
+  </arc>
+  <arc fromNode="0.12" id="0.4" toNode="0.0" type="connector">
+    <inscription id="0.4.0" text="1" type="inscriptionText">
+      <graphics x="0" y="0"/>
+    </inscription>
+    <handle id="0.4.1">
+      <graphics orientation="0" x="120" y="100"/>
+    </handle>
+  </arc>
+  <measure expression="(#queue) - (#queue > 0)" id="0.11"
+    name="queue_length" result="" type="text">
+    <graphics x="460" y="240"/>
+  </measure>
+  <measure expression="(#queue > 0)" id="0.9" name="utilization"
+    result="" type="text">
+    <graphics x="460" y="220"/>
+  </measure>
+  <measure expression="((#queue) - (#queue > 0)) * arrival_time"
+    id="0.13" name="waiting_time" result="" type="text">
+    <graphics x="460" y="260"/>
+  </measure>
+  <definition defType="int" expression="100" id="0.8" name="users" type="text">
+    <graphics x="460" y="110"/>
+  </definition>
+  <definition defType="real" expression="60.0" id="0.7"
+    name="arrival_time" type="text">
+    <graphics x="460" y="130"/>
+  </definition>
+  <definition defType="real" expression="50.0" id="0.10"
+    name="service_time" type="text">
+    <graphics x="460" y="150"/>
+  </definition>
+</net>

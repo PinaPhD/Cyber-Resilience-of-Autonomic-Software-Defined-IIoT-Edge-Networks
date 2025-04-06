@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<net gridActive="true" id="0" netclass="eDSPN" sharpEdges="false"
+  xmlns="http://timenet.tu-ilmenau.de/schema/eDSPN"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://timenet.tu-ilmenau.de/schema/eDSPN etc/schemas/eDSPN.xsd">
+  <place id="0.0" initialMarking="0" type="node">
+    <graphics orientation="0" x="30" y="780"/>
+    <label id="0.0.0" text="P0" type="text">
+      <graphics x="-10" y="-40"/>
+    </label>
+  </place>
+  <place id="0.6" initialMarking="0" type="node">
+    <graphics orientation="0" x="290" y="260"/>
+    <label id="0.6.0" text="P1" type="text">
+      <graphics x="-10" y="-40"/>
+    </label>
+  </place>
+  <place id="0.8" initialMarking="0" type="node">
+    <graphics orientation="0" x="130" y="130"/>
+    <label id="0.8.0" text="P2" type="text">
+      <graphics x="-10" y="-40"/>
+    </label>
+  </place>
+  <place id="0.11" initialMarking="0" type="node">
+    <graphics orientation="0" x="490" y="260"/>
+    <label id="0.11.0" text="P3" type="text">
+      <graphics x="-10" y="-40"/>
+    </label>
+  </place>
+  <place id="0.17" initialMarking="0" type="node">
+    <graphics orientation="0" x="660" y="260"/>
+    <label id="0.17.0" text="P4" type="text">
+      <graphics x="-10" y="-40"/>
+    </label>
+  </place>
+  <place id="0.21" initialMarking="6" type="node">
+    <graphics orientation="0" x="940" y="480"/>
+    <label id="0.21.0" text="P5" type="text">
+      <graphics x="-10" y="-40"/>
+    </label>
+  </place>
+  <place id="0.37" initialMarking="0" type="node">
+    <graphics orientation="0" x="1260" y="390"/>
+    <label id="0.37.0" text="P6" type="text">
+      <graphics x="-10" y="-40"/>
+    </label>
+  </place>
+  <place id="0.38" initialMarking="0" type="node">
+    <graphics orientation="0" x="1270" y="490"/>
+    <label id="0.38.0" text="P7" type="text">
+      <graphics x="-10" y="-40"/>
+    </label>
+  </place>
+  <place id="0.39" initialMarking="0" type="node">
+    <graphics orientation="0" x="1250" y="580"/>
+    <label id="0.39.0" text="P8" type="text">
+      <graphics x="-10" y="-40"/>
+    </label>
+  </place>
+  <place id="0.40" initialMarking="0" type="node">
+    <graphics orientation="0" x="1250" y="690"/>
+    <label id="0.40.0" text="P9" type="text">
+      <graphics x="-10" y="-40"/>
+    </label>
+  </place>
+  <place id="0.46" initialMarking="0" type="node">
+    <graphics orientation="0" x="1820" y="510"/>
+    <label id="0.46.0" text="P10" type="text">
+      <graphics x="-10" y="-40"/>
+    </label>
+  </place>
+  <immediateTransition enablingFunction="" id="0.1" priority="1"
+    type="node" weight="1">
+    <graphics orientation="0" x="160" y="260"/>
+    <label id="0.1.0" text="T0" type="text">
+      <graphics x="-10" y="-40"/>
+    </label>
+  </immediateTransition>
+  <immediateTransition enablingFunction="" id="0.5" priority="1"
+    type="node" weight="1">
+    <graphics orientation="0" x="210" y="170"/>
+    <label id="0.5.0" text="T1" type="text">
+      <graphics x="-10" y="-40"/>
+    </label>
+  </immediateTransition>
+  <immediateTransition enablingFunction="" id="0.12" priority="1"
+    type="node" weight="1">
+    <graphics orientation="0" x="390" y="260"/>
+    <label id="0.12.0" text="T2" type="text">
+      <graphics x="-10" y="-40"/>
+    </label>
+  </immediateTransition>
+  <immediateTransition enablingFunction="" id="0.15" priority="1"
+    type="node" weight="1">
+    <graphics orientation="0" x="580" y="260"/>
+    <label id="0.15.0" text="T3" type="text">
+      <graphics x="-10" y="-40"/>
+    </label>
+  </immediateTransition>
+  <immediateTransition enablingFunction="" id="0.23" priority="1"
+    type="node" weight="2">
+    <graphics orientation="0" x="890" y="260"/>
+    <label id="0.23.0" text="T5" type="text">
+      <graphics x="-10" y="-40"/>
+    </label>
+  </immediateTransition>
+  <immediateTransition enablingFunction="" id="0.24" priority="1"
+    type="node" weight="2">
+    <graphics orientation="0" x="700" y="410"/>
+    <label id="0.24.0" text="T6" type="text">
+      <graphics x="-10" y="-40"/>
+    </label>
+  </immediateTransition>
+  <immediateTransition enablingFunction="" id="0.25" priority="1"
+    type="node" weight="4">
+    <graphics orientation="0" x="1030" y="390"/>
+    <label id="0.25.0" text="T7" type="text">
+      <graphics x="-10" y="-40"/>
+    </label>
+  </immediateTransition>
+  <immediateTransition enablingFunction="" id="0.26" priority="1"
+    type="node" weight="6">
+    <graphics orientation="0" x="1080" y="490"/>
+    <label id="0.26.0" text="T8" type="text">
+      <graphics x="-10" y="-40"/>
+    </label>
+  </immediateTransition>
+  <immediateTransition enablingFunction="" id="0.27" priority="1"
+    type="node" weight="8">
+    <graphics orientation="0" x="1100" y="580"/>
+    <label id="0.27.0" text="T9" type="text">
+      <graphics x="-10" y="-40"/>
+    </label>
+  </immediateTransition>
+  <immediateTransition enablingFunction="" id="0.34" priority="1"
+    type="node" weight="10">
+    <graphics orientation="0" x="1020" y="690"/>
+    <label id="0.34.0" text="T10" type="text">
+      <graphics x="-10" y="-40"/>
+    </label>
+  </immediateTransition>
+  <immediateTransition enablingFunction="" id="0.58" priority="1"
+    type="node" weight="1">
+    <graphics orientation="0" x="1330" y="300"/>
+    <label id="0.58.0" text="T13" type="text">
+      <graphics x="-10" y="-40"/>
+    </label>
+  </immediateTransition>
+  <deterministicTransition delay="1.0" id="0.19" preemptionPolicy="PRD" type="node">
+    <graphics orientation="0" x="570" y="480"/>
+    <label id="0.19.0" text="T4" type="text">
+      <graphics x="-10" y="-40"/>
+    </label>
+  </deterministicTransition>
+  <deterministicTransition delay="1.0" id="0.45" preemptionPolicy="PRD" type="node">
+    <graphics orientation="0" x="1480" y="550"/>
+    <label id="0.45.0" text="T11" type="text">
+      <graphics x="-10" y="-40"/>
+    </label>
+  </deterministicTransition>
+  <deterministicTransition delay="1.0" id="0.47" preemptionPolicy="PRD" type="node">
+    <graphics orientation="0" x="1560" y="780"/>
+    <label id="0.47.0" text="T12" type="text">
+      <graphics x="-10" y="-40"/>
+    </label>
+  </deterministicTransition>
+  <arc fromNode="0.0" id="0.2" toNode="0.1" type="connector">
+    <inscription id="0.2.0" text="1" type="inscriptionText">
+      <graphics x="0" y="0"/>
+    </inscription>
+  </arc>
+  <arc fromNode="0.1" id="0.3" toNode="0.6" type="connector">
+    <inscription id="0.3.0" text="1" type="inscriptionText">
+      <graphics x="0" y="0"/>
+    </inscription>
+  </arc>
+  <arc fromNode="0.6" id="0.7" toNode="0.5" type="connector">
+    <inscription id="0.7.0" text="1" type="inscriptionText">
+      <graphics x="0" y="0"/>
+    </inscription>
+  </arc>
+  <arc fromNode="0.5" id="0.9" toNode="0.8" type="connector">
+    <inscription id="0.9.0" text="1" type="inscriptionText">
+      <graphics x="0" y="0"/>
+    </inscription>
+  </arc>
+  <arc fromNode="0.8" id="0.10" toNode="0.1" type="connector">
+    <inscription id="0.10.0" text="1" type="inscriptionText">
+      <graphics x="0" y="0"/>
+    </inscription>
+  </arc>
+  <arc fromNode="0.12" id="0.13" toNode="0.11" type="connector">
+    <inscription id="0.13.0" text="1" type="inscriptionText">
+      <graphics x="0" y="0"/>
+    </inscription>
+  </arc>
+  <arc fromNode="0.11" id="0.16" toNode="0.15" type="connector">
+    <inscription id="0.16.0" text="1" type="inscriptionText">
+      <graphics x="0" y="0"/>
+    </inscription>
+  </arc>
+  <arc fromNode="0.15" id="0.18" toNode="0.17" type="connector">
+    <inscription id="0.18.0" text="1" type="inscriptionText">
+      <graphics x="0" y="0"/>
+    </inscription>
+  </arc>
+  <arc fromNode="0.17" id="0.20" toNode="0.19" type="connector">
+    <inscription id="0.20.0" text="1" type="inscriptionText">
+      <graphics x="0" y="0"/>
+    </inscription>
+  </arc>
+  <arc fromNode="0.19" id="0.22" toNode="0.21" type="connector">
+    <inscription id="0.22.0" text="1" type="inscriptionText">
+      <graphics x="0" y="0"/>
+    </inscription>
+  </arc>
+  <arc fromNode="0.23" id="0.29" toNode="0.17" type="connector">
+    <inscription id="0.29.0" text="Recheck" type="inscriptionText">
+      <graphics x="0" y="0"/>
+    </inscription>
+  </arc>
+  <arc fromNode="0.24" id="0.31" toNode="0.17" type="connector">
+    <inscription id="0.31.0" text="Recheck" type="inscriptionText">
+      <graphics x="0" y="0"/>
+    </inscription>
+  </arc>
+  <arc fromNode="0.34" id="0.41" toNode="0.40" type="connector">
+    <inscription id="0.41.0" text="1" type="inscriptionText">
+      <graphics x="-5" y="0"/>
+    </inscription>
+  </arc>
+  <arc fromNode="0.27" id="0.42" toNode="0.39" type="connector">
+    <inscription id="0.42.0" text="1" type="inscriptionText">
+      <graphics x="-5" y="0"/>
+    </inscription>
+  </arc>
+  <arc fromNode="0.26" id="0.43" toNode="0.38" type="connector">
+    <inscription id="0.43.0" text="1" type="inscriptionText">
+      <graphics x="-5" y="0"/>
+    </inscription>
+  </arc>
+  <arc fromNode="0.25" id="0.44" toNode="0.37" type="connector">
+    <inscription id="0.44.0" text="1" type="inscriptionText">
+      <graphics x="-5" y="0"/>
+    </inscription>
+  </arc>
+  <arc fromNode="0.46" id="0.59" toNode="0.58" type="connector">
+    <inscription id="0.59.0" text="Re-Run Threat Classification" type="inscriptionText">
+      <graphics x="-85" y="-20"/>
+    </inscription>
+  </arc>
+  <arc fromNode="0.58" id="0.60" toNode="0.21" type="connector">
+    <inscription id="0.60.0" text="1" type="inscriptionText">
+      <graphics x="0" y="0"/>
+    </inscription>
+  </arc>
+  <arc fromNode="0.45" id="0.56" toNode="0.46" type="connector">
+    <inscription id="0.56.0" text="Partial Recovery" type="inscriptionText">
+      <graphics x="-50" y="10"/>
+    </inscription>
+  </arc>
+  <arc fromNode="0.47" id="0.57" toNode="0.0" type="connector">
+    <inscription id="0.57.0" text="Fully Recovery" type="inscriptionText">
+      <graphics x="-5" y="5"/>
+    </inscription>
+  </arc>
+  <inhibit fromNode="0.6" id="0.14" toNode="0.12" type="connector">
+    <inscription id="0.14.0" text="1" type="inscriptionText">
+      <graphics x="0" y="0"/>
+    </inscription>
+  </inhibit>
+  <inhibit fromNode="0.21" id="0.30" toNode="0.24" type="connector">
+    <inscription id="0.30.0" text="None" type="inscriptionText">
+      <graphics x="-30" y="-20"/>
+    </inscription>
+  </inhibit>
+  <inhibit fromNode="0.21" id="0.28" toNode="0.23" type="connector">
+    <inscription id="0.28.0" text="Unknown" type="inscriptionText">
+      <graphics x="-25" y="5"/>
+    </inscription>
+  </inhibit>
+  <inhibit fromNode="0.21" id="0.32" toNode="0.25" type="connector">
+    <inscription id="0.32.0" text="Low" type="inscriptionText">
+      <graphics x="0" y="-5"/>
+    </inscription>
+  </inhibit>
+  <inhibit fromNode="0.21" id="0.33" toNode="0.26" type="connector">
+    <inscription id="0.33.0" text="Medium" type="inscriptionText">
+      <graphics x="-5" y="0"/>
+    </inscription>
+  </inhibit>
+  <inhibit fromNode="0.21" id="0.35" toNode="0.27" type="connector">
+    <inscription id="0.35.0" text="High" type="inscriptionText">
+      <graphics x="5" y="0"/>
+    </inscription>
+  </inhibit>
+  <inhibit fromNode="0.21" id="0.36" toNode="0.34" type="connector">
+    <inscription id="0.36.0" text="Critical" type="inscriptionText">
+      <graphics x="0" y="0"/>
+    </inscription>
+  </inhibit>
+  <inhibit fromNode="0.37" id="0.48" toNode="0.45" type="connector">
+    <inscription id="0.48.0" text="1" type="inscriptionText">
+      <graphics x="0" y="0"/>
+    </inscription>
+  </inhibit>
+  <inhibit fromNode="0.38" id="0.49" toNode="0.45" type="connector">
+    <inscription id="0.49.0" text="1" type="inscriptionText">
+      <graphics x="0" y="0"/>
+    </inscription>
+  </inhibit>
+  <inhibit fromNode="0.39" id="0.50" toNode="0.45" type="connector">
+    <inscription id="0.50.0" text="1" type="inscriptionText">
+      <graphics x="0" y="0"/>
+    </inscription>
+  </inhibit>
+  <inhibit fromNode="0.40" id="0.51" toNode="0.45" type="connector">
+    <inscription id="0.51.0" text="1" type="inscriptionText">
+      <graphics x="0" y="0"/>
+    </inscription>
+  </inhibit>
+  <inhibit fromNode="0.37" id="0.52" toNode="0.47" type="connector">
+    <inscription id="0.52.0" text="1" type="inscriptionText">
+      <graphics x="0" y="0"/>
+    </inscription>
+  </inhibit>
+  <inhibit fromNode="0.38" id="0.53" toNode="0.47" type="connector">
+    <inscription id="0.53.0" text="1" type="inscriptionText">
+      <graphics x="0" y="0"/>
+    </inscription>
+  </inhibit>
+  <inhibit fromNode="0.39" id="0.54" toNode="0.47" type="connector">
+    <inscription id="0.54.0" text="1" type="inscriptionText">
+      <graphics x="0" y="0"/>
+    </inscription>
+  </inhibit>
+  <inhibit fromNode="0.40" id="0.55" toNode="0.47" type="connector">
+    <inscription id="0.55.0" text="1" type="inscriptionText">
+      <graphics x="0" y="0"/>
+    </inscription>
+  </inhibit>
+  <comment commentText="" id="0.4" type="text">
+    <graphics x="370" y="640"/>
+  </comment>
+</net>
