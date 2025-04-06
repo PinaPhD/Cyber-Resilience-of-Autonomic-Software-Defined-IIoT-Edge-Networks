@@ -3,31 +3,31 @@
   xmlns="http://timenet.tu-ilmenau.de/schema/eDSPN"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://timenet.tu-ilmenau.de/schema/eDSPN etc/schemas/eDSPN.xsd">
   <place id="0.0" initialMarking="norm" type="node">
-    <graphics orientation="0" x="30" y="260"/>
+    <graphics orientation="0" x="480" y="780"/>
     <label id="0.0.0" text="P0" type="text">
       <graphics x="-10" y="-40"/>
     </label>
   </place>
   <place id="0.6" initialMarking="susp" type="node">
-    <graphics orientation="0" x="290" y="260"/>
+    <graphics orientation="0" x="580" y="550"/>
     <label id="0.6.0" text="P1" type="text">
       <graphics x="-10" y="-40"/>
     </label>
   </place>
   <place id="0.8" initialMarking="fault" type="node">
-    <graphics orientation="0" x="130" y="130"/>
+    <graphics orientation="0" x="740" y="680"/>
     <label id="0.8.0" text="P2" type="text">
       <graphics x="-10" y="-40"/>
     </label>
   </place>
   <place id="0.11" initialMarking="det" type="node">
-    <graphics orientation="0" x="490" y="260"/>
+    <graphics orientation="0" x="520" y="350"/>
     <label id="0.11.0" text="P3" type="text">
       <graphics x="-10" y="-40"/>
     </label>
   </place>
   <place id="0.17" initialMarking="isol" type="node">
-    <graphics orientation="0" x="660" y="260"/>
+    <graphics orientation="0" x="680" y="260"/>
     <label id="0.17.0" text="P4" type="text">
       <graphics x="-10" y="-40"/>
     </label>
@@ -70,21 +70,21 @@
   </place>
   <exponentialTransition delay="1.0" id="0.12" preemptionPolicy="PRD"
     serverType="ExclusiveServer" type="node">
-    <graphics orientation="0" x="390" y="260"/>
+    <graphics orientation="0" x="480" y="450"/>
     <label id="0.12.0" text="T2" type="text">
       <graphics x="-10" y="-40"/>
     </label>
   </exponentialTransition>
   <immediateTransition enablingFunction="" id="0.5" priority="1"
     type="node" weight="1">
-    <graphics orientation="0" x="250" y="130"/>
+    <graphics orientation="0" x="810" y="550"/>
     <label id="0.5.0" text="T1" type="text">
       <graphics x="-10" y="-40"/>
     </label>
   </immediateTransition>
   <immediateTransition enablingFunction="" id="0.15" priority="1"
     type="node" weight="1">
-    <graphics orientation="0" x="580" y="260"/>
+    <graphics orientation="0" x="600" y="260"/>
     <label id="0.15.0" text="T3" type="text">
       <graphics x="-10" y="-40"/>
     </label>
@@ -98,7 +98,7 @@
   </immediateTransition>
   <immediateTransition enablingFunction="" id="0.24" priority="1"
     type="node" weight="2">
-    <graphics orientation="0" x="710" y="410"/>
+    <graphics orientation="0" x="730" y="410"/>
     <label id="0.24.0" text="T6" type="text">
       <graphics x="-10" y="-40"/>
     </label>
@@ -139,7 +139,7 @@
     </label>
   </immediateTransition>
   <deterministicTransition delay="1.0" id="0.19" preemptionPolicy="PRD" type="node">
-    <graphics orientation="0" x="570" y="480"/>
+    <graphics orientation="0" x="590" y="480"/>
     <label id="0.19.0" text="T4" type="text">
       <graphics x="-10" y="-40"/>
     </label>
@@ -151,13 +151,13 @@
     </label>
   </deterministicTransition>
   <deterministicTransition delay="1.0" id="0.47" preemptionPolicy="PRD" type="node">
-    <graphics orientation="0" x="1360" y="780"/>
+    <graphics orientation="0" x="1370" y="810"/>
     <label id="0.47.0" text="T12" type="text">
       <graphics x="-10" y="-40"/>
     </label>
   </deterministicTransition>
   <deterministicTransition delay="1.0" id="0.1" preemptionPolicy="PRD" type="node">
-    <graphics orientation="0" x="150" y="260"/>
+    <graphics orientation="0" x="550" y="660"/>
     <label id="0.1.0" text="T0" type="text">
       <graphics x="-10" y="-40"/>
     </label>
@@ -167,7 +167,7 @@
       <graphics x="0" y="0"/>
     </inscription>
     <handle id="0.7.1">
-      <graphics orientation="0" x="290" y="130"/>
+      <graphics orientation="0" x="680" y="550"/>
     </handle>
   </arc>
   <arc fromNode="0.5" id="0.9" toNode="0.8" type="connector">
@@ -177,7 +177,7 @@
   </arc>
   <arc fromNode="0.11" id="0.16" toNode="0.15" type="connector">
     <inscription id="0.16.0" text="1" type="inscriptionText">
-      <graphics x="0" y="0"/>
+      <graphics x="-5" y="0"/>
     </inscription>
   </arc>
   <arc fromNode="0.15" id="0.18" toNode="0.17" type="connector">
@@ -187,10 +187,10 @@
   </arc>
   <arc fromNode="0.17" id="0.20" toNode="0.19" type="connector">
     <inscription id="0.20.0" text="1" type="inscriptionText">
-      <graphics x="-2" y="61"/>
+      <graphics x="0" y="60"/>
     </inscription>
     <handle id="0.20.1">
-      <graphics orientation="0" x="620" y="460"/>
+      <graphics orientation="0" x="640" y="460"/>
     </handle>
   </arc>
   <arc fromNode="0.19" id="0.22" toNode="0.21" type="connector">
@@ -208,7 +208,7 @@
       <graphics x="0" y="-70"/>
     </inscription>
     <handle id="0.31.1">
-      <graphics orientation="0" x="660" y="410"/>
+      <graphics orientation="0" x="680" y="410"/>
     </handle>
   </arc>
   <arc fromNode="0.34" id="0.41" toNode="0.40" type="connector">
@@ -257,7 +257,7 @@
       <graphics x="470" y="-30"/>
     </inscription>
     <handle id="0.57.1">
-      <graphics orientation="0" x="20" y="780"/>
+      <graphics orientation="0" x="540" y="820"/>
     </handle>
   </arc>
   <arc fromNode="0.6" id="0.13" toNode="0.12" type="connector">
@@ -285,7 +285,7 @@
       <graphics x="0" y="0"/>
     </inscription>
     <handle id="0.10.1">
-      <graphics orientation="0" x="130" y="210"/>
+      <graphics orientation="0" x="600" y="680"/>
     </handle>
   </arc>
   <inhibit fromNode="0.21" id="0.30" toNode="0.24" type="connector">
@@ -298,7 +298,7 @@
   </inhibit>
   <inhibit fromNode="0.21" id="0.28" toNode="0.23" type="connector">
     <inscription id="0.28.0" text="Unknown" type="inscriptionText">
-      <graphics x="-25" y="5"/>
+      <graphics x="-70" y="70"/>
     </inscription>
     <handle id="0.28.1">
       <graphics orientation="0" x="940" y="260"/>
@@ -337,6 +337,9 @@
     <inscription id="0.48.0" text="1" type="inscriptionText">
       <graphics x="0" y="0"/>
     </inscription>
+    <handle id="0.48.1">
+      <graphics orientation="0" x="1380" y="400"/>
+    </handle>
   </inhibit>
   <inhibit fromNode="0.38" id="0.49" toNode="0.45" type="connector">
     <inscription id="0.49.0" text="1" type="inscriptionText">
@@ -347,31 +350,49 @@
     <inscription id="0.50.0" text="1" type="inscriptionText">
       <graphics x="0" y="0"/>
     </inscription>
+    <handle id="0.50.1">
+      <graphics orientation="0" x="1390" y="500"/>
+    </handle>
   </inhibit>
   <inhibit fromNode="0.40" id="0.51" toNode="0.45" type="connector">
     <inscription id="0.51.0" text="1" type="inscriptionText">
-      <graphics x="0" y="0"/>
+      <graphics x="38" y="4"/>
     </inscription>
+    <handle id="0.51.1">
+      <graphics orientation="0" x="1410" y="520"/>
+    </handle>
   </inhibit>
   <inhibit fromNode="0.37" id="0.52" toNode="0.47" type="connector">
     <inscription id="0.52.0" text="1" type="inscriptionText">
-      <graphics x="0" y="0"/>
+      <graphics x="27" y="40"/>
     </inscription>
+    <handle id="0.52.1">
+      <graphics orientation="0" x="1470" y="780"/>
+    </handle>
   </inhibit>
   <inhibit fromNode="0.38" id="0.53" toNode="0.47" type="connector">
     <inscription id="0.53.0" text="1" type="inscriptionText">
-      <graphics x="0" y="0"/>
+      <graphics x="3" y="21"/>
     </inscription>
+    <handle id="0.53.1">
+      <graphics orientation="0" x="1420" y="750"/>
+    </handle>
   </inhibit>
   <inhibit fromNode="0.39" id="0.54" toNode="0.47" type="connector">
     <inscription id="0.54.0" text="1" type="inscriptionText">
-      <graphics x="0" y="0"/>
+      <graphics x="43" y="3"/>
     </inscription>
+    <handle id="0.54.1">
+      <graphics orientation="0" x="1390" y="740"/>
+    </handle>
   </inhibit>
   <inhibit fromNode="0.40" id="0.55" toNode="0.47" type="connector">
     <inscription id="0.55.0" text="1" type="inscriptionText">
-      <graphics x="0" y="0"/>
+      <graphics x="-26" y="6"/>
     </inscription>
+    <handle id="0.55.1">
+      <graphics orientation="0" x="1320" y="760"/>
+    </handle>
   </inhibit>
   <comment commentText="" id="0.4" type="text">
     <graphics x="370" y="640"/>
