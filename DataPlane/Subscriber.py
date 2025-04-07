@@ -27,10 +27,7 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, msg):
     print(f"{msg.topic}: {msg.payload.decode()}")
 
-client = mqtt.Client(
-    client_id="Subscriber",
-    callback_api_version=CallbackAPIVersion.V5
-)
+client = mqtt.Client(client_id="Subscriber")
 client.on_connect = on_connect
 client.on_message = on_message
 

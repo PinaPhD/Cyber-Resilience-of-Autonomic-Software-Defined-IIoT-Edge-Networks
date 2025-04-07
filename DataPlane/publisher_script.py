@@ -2,7 +2,6 @@
 import time
 import random
 import paho.mqtt.client as mqtt
-from paho.mqtt.client import CallbackAPIVersion
 
 BROKER_HOST = "mqtt.broker.local"
 PORT = 1883
@@ -21,11 +20,7 @@ sensor_topics = {
 }
 
 last_sent = {topic: 0 for topic in sensor_topics}
-client = mqtt.Client(
-    client_id="Publisher",
-    protocol=mqtt.MQTTv311,
-    callback_api_version=CallbackAPIVersion.V5
-)
+client = mqtt.Client(client_id="Publisher")
 client.connect(BROKER_HOST, PORT, 60)
 
 print("Sensor publishing started. Publishing to broker at mqtt.broker.local")
