@@ -22,12 +22,15 @@ def on_connect(client, userdata, flags, rc):
     print("Connected to broker.")
     for topic in topics_to_subscribe:
         client.subscribe(topic)
-        print(f"📥 Subscribed to: {topic}")
+        print(f"Subscribed to: {topic}")
 
 def on_message(client, userdata, msg):
     print(f"{msg.topic}: {msg.payload.decode()}")
 
-client = mqtt.Client(client_id="wtg1_subscriber", callback_api_version=5)
+client = mqtt.Client(
+    client_id="Subscriber",
+    callback_api_version=CallbackAPIVersion.V5
+)
 client.on_connect = on_connect
 client.on_message = on_message
 
