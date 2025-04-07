@@ -51,7 +51,7 @@ try:
                 print(f"📤 Published: {topic} → {value}")
                 last_sent[topic] = now
 
-        time.sleep(0.1)
+        time.sleep(0.05)
 
 except KeyboardInterrupt:
     print("\n WTG1 Publisher stopped.")
