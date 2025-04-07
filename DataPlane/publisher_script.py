@@ -20,7 +20,7 @@ sensor_topics = {
 }
 
 last_sent = {topic: 0 for topic in sensor_topics}
-client = mqtt.Client("wtg1_publisher")
+client = mqtt.Client(client_id="wtg1_publisher", protocol=mqtt.MQTTv311, callback_api_version=5)
 client.connect(BROKER_HOST, PORT, 60)
 
 print("📡 WTG1 Publisher started. Publishing to broker at mqtt.broker.local")
