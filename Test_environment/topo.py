@@ -7,25 +7,40 @@ from mininet.link import TCLink
 from mininet.cli import CLI
 from mininet.log import setLogLevel
 
-class MultiIPTopo(Topo):
+class SpineLeafTopo(Topo):
     def build(self):
-        # Add switch
-        s1 = self.addSwitch('s1')
+        # Hosts
+        h1 = self.addHost('h1', ip='10.10.10.10/24')
+        h2 = self.addHost('h2', ip='10.10.10.15/24')
 
-        # Add hosts with real IPs (rIPs)
-        h1 = self.addHost('h1', ip='10.0.0.1/24')  # rIP_h1
-        h2 = self.addHost('h2', ip='10.0.0.2/24')  # rIP_h2
+        # Leaf switches
+        leaf1 = self.addSwitch('s1')
+        leaf2 = self.addSwitch('s2')
 
-        self.addLink(h1, s1)
-        self.addLink(h2, s1)
+        # Spine switch
+        spine = self.addSwitch('s3')
+
+        # Inline switches (between spine and hosts)
+        inline1 = self.addSwitch('s4')
+        inline2 = self.addSwitch('s5')
+
+        # Connect hosts to leaf switches
+        self.addLink(h1, leaf1)
+        self.addLink(h2, leaf2)
+
+        # Inline to respective leaf
+        self.addLink(inline1, leaf1)
+        self.addLink(inline2, leaf2)
+        self.addLink(inline1, leaf2)
+        self.addLink(inline2, leaf1)
+
 
 def run():
-    topo = MultiIPTopo()
+    topo = SpineLeafTopo()
     net = Mininet(topo=topo, controller=RemoteController, switch=OVSSwitch, link=TCLink)
 
-    # Set ONOS controller IP here
-    controller_ip = '10.0.0.100'  # Replace with real ONOS control host IP
-
+    # ONOS SDN Controller IP
+    controller_ip = '10.10.10.43'
     net.addController('c0', controller=RemoteController, ip=controller_ip, port=6653)
 
     net.start()
@@ -34,24 +49,24 @@ def run():
     h2 = net.get('h2')
 
     # Assign virtual IPs
-    h1.cmd('ip addr add 192.168.1.1/24 dev h1-eth0')  # vIP1
-    h1.cmd('ip addr add 172.16.1.1/24 dev h1-eth0')   # vIP2
+    h1.cmd('ip addr add 192.168.1.10/24 dev h1-eth0')
+    h1.cmd('ip addr add 172.16.1.15/24 dev h1-eth0')
 
-    h2.cmd('ip addr add 192.168.1.2/24 dev h2-eth0')  # vIP1
-    h2.cmd('ip addr add 172.16.1.2/24 dev h2-eth0')   # vIP2
+    h2.cmd('ip addr add 192.168.2.20/24 dev h2-eth0')
+    h2.cmd('ip addr add 172.16.2.25/24 dev h2-eth0')
 
-    # Flush any existing rules and default policies
+    # IPTables setup
     h1.cmd('iptables -F')
     h1.cmd('iptables -P OUTPUT DROP')
-    h1.cmd(f'iptables -A OUTPUT -d {controller_ip} -j ACCEPT')  # Allow rIP to ONOS only
-    h1.cmd('iptables -A OUTPUT -s 192.168.1.1 -j ACCEPT')  # Allow vIP1 out
-    h1.cmd('iptables -A OUTPUT -s 172.16.1.1 -j ACCEPT')   # Allow vIP2 out
+    h1.cmd(f'iptables -A OUTPUT -d {controller_ip} -j ACCEPT')
+    h1.cmd('iptables -A OUTPUT -s 192.168.1.10 -j ACCEPT')
+    h1.cmd('iptables -A OUTPUT -s 172.16.1.15 -j ACCEPT')
 
     h2.cmd('iptables -F')
     h2.cmd('iptables -P OUTPUT DROP')
-    h2.cmd(f'iptables -A OUTPUT -d {controller_ip} -j ACCEPT')  # Allow rIP to ONOS only
-    h2.cmd('iptables -A OUTPUT -s 192.168.1.2 -j ACCEPT')  # Allow vIP1 out
-    h2.cmd('iptables -A OUTPUT -s 172.16.1.2 -j ACCEPT')   # Allow vIP2 out
+    h2.cmd(f'iptables -A OUTPUT -d {controller_ip} -j ACCEPT')
+    h2.cmd('iptables -A OUTPUT -s 192.168.2.20 -j ACCEPT')
+    h2.cmd('iptables -A OUTPUT -s 172.16.2.25 -j ACCEPT')
 
     print("\n>>> h1 interfaces and rules:")
     print(h1.cmd('ip addr show'))
