@@ -22,3 +22,21 @@ Running Wireshark:
    sudo -E wireshark
 ```
 
+## Installing MQTT Mosquitto for the IoT to ECP pub/sub model
+```bash
+sudo apt update
+sudo apt install mosquitto mosquitto-clients
+mosquitto -v
+```
+
+Open the MQTT Mosquitto configuration file and update:
+```bash
+listener 1883 0.0.0.0
+allow_anonymous true
+```
+
+Restart the MQTT mosquitto broker
+```bash
+pkill mosquitto
+mosquitto -c mqtt.conf -v
+```
