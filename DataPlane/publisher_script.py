@@ -48,10 +48,10 @@ try:
                     value = random.random()
 
                 client.publish(topic, str(value))
-                print(f"📤 Published: {topic} → {value}")
+                print(f" Published: {topic} → {value}")
                 last_sent[topic] = now
 
-        time.sleep(0.05)
+        time.sleep(0.001)
 
 except KeyboardInterrupt:
     print("\n WTG1 Publisher stopped.")
