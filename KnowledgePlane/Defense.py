@@ -43,6 +43,39 @@ devices, links, hosts, flows, port_stats, snort_logs = current_network_state() #
 assigned_ips = set(switch_host_info[0].tolist() + switch_host_info[1].tolist() + switch_host_info[2].tolist())
 
 '''
+    ACT Module
+'''
+def push_intent_to_onos(app_id, host_id, new_ip, mac):
+    intent = {
+        "type": "HostToHostIntent",
+        "appId": app_id,
+        "priority": 200,
+        "one": host_id,
+        "two": host_id,
+        "constraints": [],
+        "selector": {
+            "criteria": [
+                {"type": "ETH_DST", "mac": mac},
+                {"type": "IPV4_DST", "ip": new_ip + "/32"}
+            ]
+        },
+        "treatment": {"instructions": []}
+    }
+    try:
+        response = requests.post(
+            f"{ONOS_CONTROLLER}/onos/v1/intents",
+            headers={"Content-Type": "application/json"},
+            json=intent,
+            auth=(USERNAME, PASSWORD)
+        )
+        if response.status_code in [200, 201]:
+            print(f">> [ONOS] Intent successfully pushed for host {host_id} ({new_ip})")
+        else:
+            print(f">> [ERROR] Intent push failed: {response.status_code}, {response.text}")
+    except Exception as e:
+        print(f">> [EXCEPTION] Failed to reach ONOS controller: {e}")
+
+'''
 STEP 3/4: Read CVSS from threat intelligence sources and determining the threat severity (Z)
 --- ORIENT MODULE
 '''
@@ -246,38 +279,6 @@ def is_network_degraded(r=2):
         return "unknown"
 
 
-'''
-    ACT Module
-'''
-def push_intent_to_onos(app_id, host_id, new_ip, mac):
-    intent = {
-        "type": "HostToHostIntent",
-        "appId": app_id,
-        "priority": 200,
-        "one": host_id,
-        "two": host_id,
-        "constraints": [],
-        "selector": {
-            "criteria": [
-                {"type": "ETH_DST", "mac": mac},
-                {"type": "IPV4_DST", "ip": new_ip + "/32"}
-            ]
-        },
-        "treatment": {"instructions": []}
-    }
-    try:
-        response = requests.post(
-            f"{ONOS_CONTROLLER}/onos/v1/intents",
-            headers={"Content-Type": "application/json"},
-            json=intent,
-            auth=(USERNAME, PASSWORD)
-        )
-        if response.status_code in [200, 201]:
-            print(f">> [ONOS] Intent successfully pushed for host {host_id} ({new_ip})")
-        else:
-            print(f">> [ERROR] Intent push failed: {response.status_code}, {response.text}")
-    except Exception as e:
-        print(f">> [EXCEPTION] Failed to reach ONOS controller: {e}")
 
 '''
 STEP 5: 
