@@ -8,10 +8,10 @@
 
 import random
 import matplotlib.pyplot as plt
-import matplotlib.ticker as ticker
 import seaborn as sns
 import pandas as pd
 import plotly.graph_objects as go
+import numpy as np
 
 # Define GSPN places as variables
 places = {
@@ -38,16 +38,21 @@ stats = {
     'compromised_tokens': 0
 }
 
-# Define stochastic transition rates (rates for exponential distribution)
+# Define stochastic transition rates
 rates = {
-    't_s1': 0.2,  # compromised -> defend
-    't_s2': 0.3,  # defend -> partialrestore
-    't_s3': 0.3   # defend -> fullyrestored
+    't_s1': 0.2,
+    't_s2': 0.3,
+    't_s3': 0.3
 }
 
-# Simple event queue simulation for stochastic transitions
-events = []  # list of tuples (time, event_type, from_place, to_place)
+# Event queue and time tracking
+events = []
 time_series = []
+recovery_count = 0
+compromised_time_total = 0.0
+previous_time = 0.0
+mtd_event_times = []  # capture time of each MTD (t_s1) firing
+
 
 def schedule_stochastic(event_type, from_place, to_place, rate):
     delay = random.expovariate(rate)
@@ -60,25 +65,19 @@ def fire_immediate(from_place, to_place):
         return True
     return False
 
-# Initial immediate transitions
 def fire_immediate_transitions():
     changed = True
     while changed:
         changed = False
-        # norm -> detect
         if fire_immediate('norm', 'detect'):
             changed = True
-        # detect -> detfail
         if fire_immediate('detect', 'detfail'):
             changed = True
-            # loop back from detfail to norm
             if fire_immediate('detfail', 'norm'):
                 changed = True
-        # detect -> underattack
         if fire_immediate('detect', 'underattack'):
             stats['t_i3_fired'] += 1
             changed = True
-        # underattack -> compromised
         if fire_immediate('underattack', 'compromised'):
             stats['t_i4_fired'] += 1
             stats['compromised_tokens'] += 1
@@ -89,28 +88,34 @@ def fire_immediate_transitions():
 # Main simulation loop
 while time < T_MAX:
     fire_immediate_transitions()
+    compromised_time_total += (time - previous_time) * places['compromised']
+    previous_time = time
     time_series.append((time, dict(places)))
     if not events:
         break
-    events.sort()  # sort by event time
+    events.sort()
     next_event = events.pop(0)
     next_time, event_type, from_place, to_place = next_event
     if next_time > T_MAX:
         break
+    compromised_time_total += (next_time - time) * places['compromised']
     time = next_time
     if places[from_place] > 0:
         places[from_place] -= 1
         places[to_place] += 1
         if event_type == 't_s1':
             stats['t_s1_fired'] += 1
+            mtd_event_times.append(time)
             if random.random() < 0.5:
                 schedule_stochastic('t_s2', 'defend', 'partialrestore', rates['t_s2'])
             else:
                 schedule_stochastic('t_s3', 'defend', 'fullyrestored', rates['t_s3'])
         elif event_type == 't_s2':
             stats['t_s2_fired'] += 1
+            recovery_count += 1
         elif event_type == 't_s3':
             stats['t_s3_fired'] += 1
+            recovery_count += 1
     time_series.append((time, dict(places)))
 
 # Final output
@@ -118,8 +123,32 @@ print("Final Time:", time)
 print("Place Counts:", places)
 print("Transition Stats:", stats)
 
+# --- Metrics Computation ---
+prob_of_compromise = max([ts['compromised']/10 for t, ts in time_series])
+recovery_rate = recovery_count / time if time > 0 else 0
+impact = compromised_time_total
+cri = recovery_rate / (impact + 1e-5)
+
+# Defense Efficiency = 1 / (avg latency * containment rate)
+containment_rate = stats['t_s1_fired'] / stats['t_i4_fired'] if stats['t_i4_fired'] > 0 else 0
+avg_latency = np.mean(np.diff(mtd_event_times)) if len(mtd_event_times) > 1 else 0
+if avg_latency > 0 and containment_rate > 0:
+    defense_eff = 1 / (avg_latency * containment_rate)
+else:
+    defense_eff = 0
+
+# Attack Surface Volatility = variance of MTD events across time windows
+volatility = 0
+if mtd_event_times:
+    bin_counts, _ = np.histogram(mtd_event_times, bins=10, range=(0, T_MAX))
+    volatility = np.var(bin_counts)
+
+print("Probability of Compromise:", prob_of_compromise)
+print("Defense Activation Efficiency:", defense_eff)
+print("Attack Surface Volatility:", volatility)
+print("Cyber-Resilience Index:", cri)
+
 # --- Visualization ---
-# Create a dataframe for plotting
 records = []
 for t, place_dict in time_series:
     record = {'time': t}
@@ -127,7 +156,6 @@ for t, place_dict in time_series:
     records.append(record)
 df = pd.DataFrame(records)
 
-# Line plot of token counts over time
 sns.set(style="whitegrid")
 plt.figure(figsize=(12, 6))
 for col in places.keys():
@@ -145,7 +173,6 @@ source = []
 target = []
 value = []
 
-# Manually define major flows for simplicity
 def add_flow(src, tgt, val):
     if val > 0:
         source.append(labels.index(src))
