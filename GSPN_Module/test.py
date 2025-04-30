@@ -84,7 +84,7 @@ def simulate_gspn_event_driven_mtd(num_devices, lambda_attack, mu_compromise,
         frac_compromised = compromised_count / num_devices
         containment_rate = detection_count / attack_count if attack_count > 0 else 0.0
         avg_det_latency = sum(detection_latencies) / len(detection_latencies) if detection_latencies else 0.0
-        efficiency_index = 1.0 / (avg_det_latency * containment_rate) if containment_rate > 0 and avg_det_latency > 0 else 0.0
+        efficiency_index = (1.0 / (avg_det_latency ))* containment_rate if containment_rate > 0 and avg_det_latency > 0 else 0.0
         resilience_index = recovery_count / total_compromised_time if total_compromised_time > 0 else 0.0
 
         time_series.append((current_time, frac_compromised, containment_rate, efficiency_index, resilience_index))
