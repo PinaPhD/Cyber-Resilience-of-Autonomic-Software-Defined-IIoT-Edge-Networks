@@ -131,10 +131,74 @@ def get_port_statistics():
     except requests.exceptions.RequestException as e:
         print(f"An error occurred while fetching network port statistics: {e}")
 
-def get_snort_logs():
-    snort_logs= {}
+
     
-    return snort_logs
+'''
+STEP 1: Read SNORT Logs from the different IDSs mounted on the switch network in the data plane and insert them to the Knowledge_Base through Barnyard2
+ --- OBSERVE Module  
+'''
+            
+def get_snort_logs():
+    """
+    Fetches SNORT alerts from the Barnyard2-populated MySQL database and returns them as a DataFrame.
+    Assumes standard schema from SNORT/Barnyard2 (schema.sql).
+    """
+
+    conn = None
+    cursor = None
+
+    try:
+        # Connect to the MySQL database where Barnyard2 stores alerts
+        conn = mysql.connector.connect(
+            host=DB_HOST,
+            user=DB_USER,
+            password=DB_PASSWORD,
+            database=DB_NAME
+        )
+        cursor = conn.cursor(dictionary=True)
+
+        # SQL query to fetch recent SNORT alerts (customize as needed)
+        query = """
+        SELECT
+            event.cid,
+            event.signature,
+            signature.sig_name,
+            inet_ntoa(ip_hdr.ip_src) AS src_ip,
+            inet_ntoa(ip_hdr.ip_dst) AS dst_ip,
+            ip_hdr.ip_proto,
+            tcphdr.tcp_sport,
+            tcphdr.tcp_dport,
+            event.timestamp
+        FROM
+            event
+        JOIN
+            signature ON event.signature = signature.sig_id
+        JOIN
+            ip_hdr ON event.cid = ip_hdr.cid AND event.sid = ip_hdr.sid
+        LEFT JOIN
+            tcphdr ON event.cid = tcphdr.cid AND event.sid = tcphdr.sid
+        ORDER BY
+            event.timestamp DESC
+        LIMIT 100;
+        """
+
+        cursor.execute(query)
+        results = cursor.fetchall()
+
+        df = pd.DataFrame(results)
+        logging.info(f"Retrieved {len(df)} SNORT alerts from Barnyard2 database.")
+        return df
+
+    except mysql.connector.Error as err:
+        logging.error(f"Error querying SNORT logs from Barnyard2: {err}")
+        return pd.DataFrame()
+
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
     
 def current_network_state():
     devices = get_devices()
@@ -448,6 +512,11 @@ if __name__ == "__main__":
         while True:
             print("\nPress **Ctrl + C** to stop execution... Running data collection & insertion...\n")
             
+            
+            
+            '''
+            STEP 2: Assess the network health and categorize it as either busy, stable, or idle.
+            '''
             # Reading the current network state
             devices, links, hosts, flows, port_stats, snort_logs = current_network_state()
 
@@ -474,16 +543,8 @@ if __name__ == "__main__":
                 insert_port_statistics_into_db(port_stats)
             else:
                 print("No port statistics available for insertion.")
-                
-            '''
-            STEP 1: Read SNORT Logs from the different IDSs mounted on the switch network in the data plane and insert them to the Knowledge_Base
-             --- OBSERVE Module  
-            '''
             
             
-            '''
-            STEP 2: Assess the network health and categorize it as either busy, stable, or idle.
-            '''
             
             
             # Sleep for 1 second before the next iteration
