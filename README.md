@@ -2,7 +2,9 @@
 
 
 ---
-![Security Framework]()
+![Main Framework Figure](https://github.com/PinaPhD/Cyber-Resilience-of-Autonomic-Software-Defined-IIoT-Edge-Networks/blob/main/Main_Figure.png?raw=true)
+
+This repository contains the implementation and evaluation of an autonomic, event-driven OF-RHM defense framework for securing software-defined IIoT-Edge networks in offshore wind power environments.
 ---
 
 
