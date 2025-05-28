@@ -22,7 +22,7 @@ This repository contains the implementation and evaluation of an autonomic, even
 
 ## Executive Summary
 
-To be Updated
+The rising frequency of cyber attacks targeting industrial cyber-physical systems (ICPS) in offshore wind power plants (WPPs) compels operators to reassess their cybersecurity strategies and overall system resilience. These threats trigger unplanned WPP turbine shutdowns, causing massive power losses that undermine grid stability. This paper proposes an autonomic, event-driven OpenFlow Random Host Mutation (OF-RHM) defense agent within the network-level Moving Target Defense framework and implements it in a co-simulation testbed. The approach assesses the ICPS's ability to anticipate, withstand, recover from, and adapt to evolving cyber threats, while significantly increasing the complexity and cost of successful intrusions. To evaluate long-term resilience, a Generalized Stochastic Petri Net model is developed to simulate attack–defense dynamics and compute resilience metrics, including system compromise probability, attack containment rate, and a cyber resilience index. Experimental results demonstrate that the proposed approach achieves up to 95\% attack containment efficiency, reduces attacker dwell time by over 75\%, and maintains low packet loss with high throughput under attack. These findings validate the framework’s effectiveness in securing mission-critical, time-sensitive offshore WPP networks.
 
 
 ## Pre-requisites
