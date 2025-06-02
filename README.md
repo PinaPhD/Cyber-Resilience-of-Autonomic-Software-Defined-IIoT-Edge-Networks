@@ -45,7 +45,7 @@ Alternatively, get a physical server and proceed to step 3.
 
 ### Control Plane Design
 
-- On one of the VMs, download the [ONOS ver.2.0.0](https://repo1.maven.org/maven2/org/onosproject/onos-releases/2.0.0/onos-2.0.0.tar.gz) SDN Controller.
+- On one of the VMs, download the [ONOS ver.2.7.0](https://repo1.maven.org/maven2/org/onosproject/onos-releases/2.7.0/onos-2.7.0.tar.gz) SDN Controller.
 - Create a cluster using the _"org.onosproject.cluster-ha"_ ONOS SDN controller feature.
 - Install the following ONOS features:
     - org.onosproject.pipelines.basic
